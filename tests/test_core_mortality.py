@@ -5,7 +5,6 @@ import pandas as pd
 from modelic.core.mortality import MortalityTable
 
 
-# TODO: Outputs of erratic shapes (inconsistent) and some tests failing
 class TestMortalityTable(unittest.TestCase):
 
     df = pd.read_csv("data/mortality/AM92.csv")
@@ -67,106 +66,94 @@ class TestMortalityTable(unittest.TestCase):
         assert actual.shape == expected.shape
         assert np.allclose(actual, expected)
 
-    import unittest
-    import numpy as np
-    import pandas as pd
 
-    from modelic.core.mortality import MortalityTable
+    def test_npx_age_arr_t3(self):
+        expected = np.array([0.99792843, 0.99396115, 0.89016863])
 
-    # TODO: Outputs of erratic shapes (inconsistent) and some tests failing
-    class TestMortalityTable(unittest.TestCase):
-        df = pd.read_csv("data/mortality/AM92.csv")
-        ages = df['x'].to_numpy(int)
-        qx = df['q_x'].to_numpy(float)
-        mort = MortalityTable(ages, qx, 'AM92')
+        actual = self.mort.npx([34, 47, 73], 3)
 
-        def test_npx_age_arr_t3(self):
-            expected = np.array([0.99792843, 0.99396115, 0.89016863])
+        assert actual.shape == expected.shape
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.npx([34, 47, 73], 3)
+    def test_npx_age_arr_t1(self):
+        expected = np.array([0.99934, 0.998198, 0.965856])
 
-            assert actual.shape == expected.shape
-            assert np.allclose(actual, expected)
+        actual = self.mort.npx([34, 47, 73])
 
-        def test_npx_age_arr_t1(self):
-            expected = np.array([0.99934, 0.998198, 0.965856])
+        assert actual.shape == expected.shape
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.npx([34, 47, 73])
+    def test_npx_age_arr_t0(self):
+        expected = np.array([1, 1, 1])
 
-            assert actual.shape == expected.shape
-            assert np.allclose(actual, expected)
+        actual = self.mort.npx([34, 47, 73], 0)
 
-        def test_npx_age_arr_t0(self):
-            expected = np.array([1, 1, 1])
+        assert actual.shape == expected.shape
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.npx([34, 47, 73], 0)
+    def test_nqx_age_arr_t3(self):
+        expected = np.array([0.00072302, 0.00223247, 0.0390708])
 
-            assert actual.shape == expected.shape
-            assert np.allclose(actual, expected)
+        actual = self.mort.nqx([34, 47, 73], 3)
 
-        def test_nqx_age_arr_t3(self):
-            expected = np.array([0.00072302, 0.00223247, 0.0390708])
+        assert actual.shape == expected.shape
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.nqx([34, 47, 73], 3)
+    def test_nqx_age_arr_t1(self):
+        expected = 0.00066
 
-            assert actual.shape == expected.shape
-            assert np.allclose(actual, expected)
+        actual = self.mort.nqx(34, 1)
 
-        def test_nqx_age_arr_t1(self):
-            expected = 0.00066
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.nqx(34, 1)
+    def test_nqx_age_arr_t0(self):
+        expected = 0
 
-            assert np.allclose(actual, expected)
+        actual = self.mort.nqx(34, 0)
 
-        def test_nqx_age_arr_t0(self):
-            expected = 0
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.nqx(34, 0)
+    def test_npx_age_int_t3(self):
+        expected = 0.99792843
 
-            assert np.allclose(actual, expected)
+        actual = self.mort.npx(34, 3)
 
-        def test_npx_age_int_t3(self):
-            expected = 0.99792843
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.npx(34, 3)
+    def test_npx_age_int_t1(self):
+        expected = 0.99934
 
-            assert np.allclose(actual, expected)
+        actual = self.mort.npx(34)
 
-        def test_npx_age_int_t1(self):
-            expected = 0.99934
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.npx(34)
+    def test_npx_age_int_t0(self):
+        expected = 1
 
-            assert np.allclose(actual, expected)
+        actual = self.mort.npx(34, 0)
 
-        def test_npx_age_int_t0(self):
-            expected = 1
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.npx(34, 0)
+    def test_nqx_age_int_t3(self):
+        expected = 0.00072302
 
-            assert np.allclose(actual, expected)
+        actual = self.mort.nqx(34, 3)
 
-        def test_nqx_age_int_t3(self):
-            expected = 0.00072302
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.nqx(34, 3)
+    def test_nqx_age_int_t1(self):
+        expected = 0.00066
 
-            assert np.allclose(actual, expected)
+        actual = self.mort.nqx(34, 1)
 
-        def test_nqx_age_int_t1(self):
-            expected = 0.00066
+        assert np.allclose(actual, expected)
 
-            actual = self.mort.nqx(34, 1)
+    def test_nqx_age_int_t0(self):
+        expected = 0
 
-            assert np.allclose(actual, expected)
+        actual = self.mort.nqx(34, 0)
 
-        def test_nqx_age_int_t0(self):
-            expected = 0
-
-            actual = self.mort.nqx(34, 0)
-
-            assert np.allclose(actual, expected)
+        assert np.allclose(actual, expected)
 
 
 
