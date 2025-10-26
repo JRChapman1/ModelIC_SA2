@@ -24,12 +24,17 @@ class MortalityTable:
         return int(self.ages[0])
 
 
+    @property
+    def max_age(self) -> int:
+        return int(self.ages[-1])
+
+
     @cached_property
     def lx(self) -> np.ndarray:
         return (1 - self.qx).cumprod()
 
 
-    def npx(self, age: IntArrayLike, n: int = 1) -> ArrayLike:
+    def npx(self, age: IntArrayLike, n: int = 1, full_path: bool = False) -> ArrayLike:
         age = np.asarray(age, dtype=int)
         match n:
             case 0:
@@ -39,10 +44,16 @@ class MortalityTable:
             case _:
                 age -= 1
                 idx = self._resolve_idx(age)
-                return self.lx[idx + n] / self.lx[idx]
+
+                if full_path:
+                    idx_end = idx.reshape(1, -1) + np.arange(n).reshape(-1, 1) + 1
+                else:
+                    idx_end = idx + n
+
+                return self.lx[idx_end] / self.lx[idx]
 
 
-    def nqx(self, age: IntArrayLike, n: int = 1) -> ArrayLike:
+    def nqx(self, age: IntArrayLike, n: int = 1, full_path: bool = False) -> ArrayLike:
         age = np.asarray(age, dtype=int)
         match n:
             case 0:
@@ -50,13 +61,22 @@ class MortalityTable:
             case 1:
                 return self.qx[self._resolve_idx(age)]
             case _:
-                npx = self.npx(age, n-1)
-                qx = self.nqx(age+n)
+                npx = self.npx(age, n-1, full_path)
+                idx = self._resolve_idx(age)
+
+                if full_path:
+                    npx = np.concatenate([np.ones([1, age.size]), npx])
+                    idx = (idx.reshape(1, -1) + np.arange(n).reshape(-1, 1) + 1).clip(0, self.max_age - self.min_age)
+                else:
+                    idx += n
+
+                qx = self.qx[idx]
+
                 return npx * qx
 
 
     def _resolve_idx(self, age: IntArrayLike) -> IntArrayLike:
-        return age - self.min_age
+        return age.clip(self.min_age, self.max_age) - self.min_age
 
 
 
