@@ -1,9 +1,7 @@
 from dataclasses import dataclass
 from functools import cached_property
-from unittest import case
 
 import numpy as np
-from typing import Tuple
 
 from modelic.core.custom_types import IntArrayLike, ArrayLike
 

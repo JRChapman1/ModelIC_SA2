@@ -1,0 +1,10 @@
+curves:
+  rfr_gbp:
+    kind: yield
+    schema: one_year_forwards
+    path: data/curves/gbp_rfr_forwards.csv
+    name: RFR_GBP
+  rpi:
+    kind: index
+    schema: index_levels
+    path: data/curves/rpi_levels.csv

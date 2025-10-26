@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="275dd8c0-08fc-44d0-9bb6-8c277ef0d324" name="Changes" comment="full_path option added to mortality">
+      <change afterPath="$PROJECT_DIR$/.idea/ModelIC.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modelic/assets/bonds.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modelic/assumptions/config/curves.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modelic/core/cashflows.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modelic/products/annuity.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_asset_bond.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_product_annuity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelic/core/compounding.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/compounding.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelic/core/curves.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/curves.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelic/core/custom_types.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/custom_types.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelic/core/mortality.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/mortality.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="33kYNy0iQbayyngt26SPxlQd1Xk" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python tests.Python tests for tests.test_asset_bond.TestMortalityTable.executor": "Run",
+    "Python tests.Python tests for tests.test_asset_bond.TestMortalityTable.test_present_value.executor": "Run",
+    "Python tests.Python tests for tests.test_asset_bond.TestMortalityTable.test_present_value_aggregated.executor": "Run",
+    "Python tests.Python tests for tests.test_asset_bond.TestMortalityTable.test_project_cashflows.executor": "Debug",
+    "Python tests.Python tests for tests.test_asset_bond.TestMortalityTable.test_project_cashflows_aggregated.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.TestMortalityTable.test_npx_age_int_t0.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.TestMortalityTable.test_npx_age_int_t1.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.TestMortalityTable.test_nqx_age_arr_t0.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.TestMortalityTable.test_nqx_age_arr_t1.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.TestMortalityTable.test_nqx_age_int_t0.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.TestMortalityTable.test_nqx_age_int_t1.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.TestMortalityTable.test_nqx_age_int_t3.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_npx_age_arr_t0.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_npx_age_arr_t1.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_npx_age_arr_t3.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_npx_age_arr_t3_full_path.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_npx_age_int_t3.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_3_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_t0.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_t1.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_t3.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_t_out_of_bounds_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_int_t1_full_path.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_p2.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_p2_horizon_start_0.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_p2_horizon_start_1.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_p2_horizon_start_neg1.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_p2_horizon_start_neg1_non_consecutive.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_q2.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_age_arr_t3.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_age_arr_t3_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_age_arr_t_out_of_bounds.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_age_int_t2.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_age_int_t3_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_horizon_age_int_int_1.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_horizon_start_0.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_horizon_start_1.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tp_horizon_start_neg1.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_1_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_age_arr_t1.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_age_arr_t1_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_age_arr_t3.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_age_arr_t3_full_path.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_age_arr_t_out_of_bounds.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_age_arr_t_out_of_bounds_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_age_int_3_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_age_int_t1_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_age_int_t3.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_tq_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.testnqx_age_arr_t1_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality_old.TestMortalityTable.test_tp_age_arr_t3_full_path.executor": "Debug",
+    "Python tests.Python tests for tests.test_core_mortality_old.TestMortalityTable.test_tq_age_arr_t_out_of_bounds_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_product_annuity.TestMortalityTable.test_present_value.executor": "Run",
+    "Python tests.Python tests for tests.test_product_annuity.TestMortalityTable.test_present_value_aggregated.executor": "Run",
+    "Python tests.Python tests for tests.test_product_annuity.TestMortalityTable.test_project_cashflows.executor": "Run",
+    "Python tests.Python tests for tests.test_product_annuity.TestMortalityTable.test_project_cashflows_aggregated.executor": "Run",
+    "Python tests.Python tests in test_asset_bond.py.executor": "Run",
+    "Python tests.Python tests in test_core_curves.py.executor": "Run",
+    "Python tests.Python tests in test_core_mortality.py.executor": "Run",
+    "Python tests.Python tests in test_product_annuity.py.executor": "Run",
+    "Python.loaders.executor": "Debug",
+    "Python.main.executor": "Run",
+    "Python.mortality.executor": "Debug",
+    "Python.test_core_curves.executor": "Debug",
+    "Python.test_core_mortality_2.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/joshchapman/PycharmProjects/ModelIC/data/mortality"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data/mortality" />
+      <recent name="$PROJECT_DIR$/data/policy_data" />
+      <recent name="$PROJECT_DIR$/data/curves" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python tests.Python tests in test_asset_bond.py">
+    <configuration name="Python tests for tests.test_asset_bond.TestMortalityTable" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="ModelIC" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_asset_bond.TestMortalityTable&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.test_asset_bond.TestMortalityTable.test_present_value" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="ModelIC" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_asset_bond.TestMortalityTable.test_present_value&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.test_asset_bond.TestMortalityTable.test_present_value_aggregated" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="ModelIC" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_asset_bond.TestMortalityTable.test_present_value_aggregated&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.test_asset_bond.TestMortalityTable.test_project_cashflows" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="ModelIC" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_asset_bond.TestMortalityTable.test_project_cashflows&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_asset_bond.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="ModelIC" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_asset_bond.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Python tests in test_asset_bond.py" />
+        <item itemvalue="Python tests.Python tests for tests.test_asset_bond.TestMortalityTable.test_present_value" />
+        <item itemvalue="Python tests.Python tests for tests.test_asset_bond.TestMortalityTable.test_present_value_aggregated" />
+        <item itemvalue="Python tests.Python tests for tests.test_asset_bond.TestMortalityTable" />
+        <item itemvalue="Python tests.Python tests for tests.test_asset_bond.TestMortalityTable.test_project_cashflows" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-b3d66beaba9a-c6efb3732140-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.26199.168" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="275dd8c0-08fc-44d0-9bb6-8c277ef0d324" name="Changes" comment="" />
+      <created>1759862500957</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1759862500957</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Curves and MortalityTable partially built">
+      <option name="closed" value="true" />
+      <created>1760234474023</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760234474023</updated>
+    </task>
+    <task id="LOCAL-00002" summary="New simplified (working) mortality module and unit tests added">
+      <option name="closed" value="true" />
+      <created>1761284351831</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1761284351831</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Fix to code in prior commit">
+      <option name="closed" value="true" />
+      <created>1761284444871</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1761284444871</updated>
+    </task>
+    <task id="LOCAL-00004" summary="full_path option added to mortality">
+      <option name="closed" value="true" />
+      <created>1761479767043</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1761479767043</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Curves and MortalityTable partially built" />
+    <MESSAGE value="New simplified (working) mortality module and unit tests added" />
+    <MESSAGE value="Fix to code in prior commit" />
+    <MESSAGE value="full_path option added to mortality" />
+    <option name="LAST_COMMIT_MESSAGE" value="full_path option added to mortality" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_core_mortality_old.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/modelic/core/mortality_old.py</url>
+          <line>88</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_core_mortality_old.py</url>
+          <line>106</line>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_core_mortality_old.py</url>
+          <line>63</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_core_mortality_old.py</url>
+          <line>44</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_core_mortality_old.py</url>
+          <line>54</line>
+          <option name="timeStamp" value="74" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_core_mortality.py</url>
+          <line>65</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_core_mortality.py</url>
+          <line>185</line>
+          <option name="timeStamp" value="96" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_core_mortality.py</url>
+          <line>230</line>
+          <option name="timeStamp" value="101" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_product_annuity.py</url>
+          <line>52</line>
+          <option name="timeStamp" value="112" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/modelic/products/annuity.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="118" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_asset_bond.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/modelic/core/cashflows.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="138" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

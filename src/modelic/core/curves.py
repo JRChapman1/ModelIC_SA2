@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import numpy as np
-import yaml
 
+from modelic.core.compounding import zero_to_df
 from modelic.core.custom_types import ArrayLike
 
 
@@ -11,13 +11,27 @@ class YieldCurve:
     zero_rates: np.ndarray
     name: str
 
+
+    # --- Properties ---
+
+    @property
+    def min_time(self):
+        return self.times[0]
+
+    @property
+    def max_time(self):
+        return self.times[-1]
+
     # --- Core queries ---
 
     def zero(self, t: ArrayLike) -> ArrayLike:
-        pass
+        idx = self._resolve_idx(t)
+        return self.zero_rates[idx]
 
     def df(self, t: ArrayLike) -> ArrayLike:
-        pass
+        df = zero_to_df(self.times, self.zero_rates)
+        idx = self._resolve_idx(t)
+        return df[idx]
 
     def fwd(self, t: ArrayLike, p: int) -> ArrayLike:
         pass
@@ -25,7 +39,7 @@ class YieldCurve:
 
     # --- Transformations (return NEW YieldCurve objects) ---
 
-    def with_spread(self, bp: float) -> "YieldCurve":
+    def with_spread(self, bp: ArrayLike) -> "YieldCurve":
         pass
 
     def shifted(self, bp: float) -> "YieldCurve":   # Alias for with_spread
@@ -49,6 +63,9 @@ class YieldCurve:
 
     def __print__(self):
         return('foo') # TODO: This should override print(cls) functionality
+
+    def _resolve_idx(self, times: np.ndarray) -> np.ndarray:
+        return times - self.min_time
 
 @dataclass(frozen=True)
 class IndexCurve:

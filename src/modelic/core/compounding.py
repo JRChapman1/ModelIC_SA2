@@ -1,7 +1,10 @@
+import numpy as np
+
+
 # --- Conversions ---
 
 def zero_to_df(years, rates):
-    return (1 + rates) ** years
+    return (1 + rates) ** -years.reshape(-1, 1)
 
 def df_to_zero():
     pass
