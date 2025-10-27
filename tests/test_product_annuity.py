@@ -31,7 +31,7 @@ class TestMortalityTable(unittest.TestCase):
                              [4.9932572737,9.96193618416,13.93859149776],
                              [4.98964215543384,9.9396114851713,13.3525294796452]])
 
-        actual = self.annuity.project_cashflows(False)
+        actual = self.annuity.project_cashflows(aggregate=False)
 
         assert actual.shape == expected.shape
         assert np.allclose(actual, expected)
@@ -40,7 +40,7 @@ class TestMortalityTable(unittest.TestCase):
 
         expected = np.array([29.46652   , 28.89378496, 28.28178312])
 
-        actual = self.annuity.project_cashflows(True)
+        actual = self.annuity.project_cashflows(aggregate=True)
 
         assert np.allclose(actual, expected)
 
@@ -48,7 +48,7 @@ class TestMortalityTable(unittest.TestCase):
 
         expected = np.array([14.76985138, 29.46534658, 41.20403608])
 
-        actual = self.annuity.present_value(False)
+        actual = self.annuity.present_value(aggregate=False)
 
         assert actual.shape == expected.shape
         assert np.allclose(actual, expected)
@@ -57,6 +57,6 @@ class TestMortalityTable(unittest.TestCase):
 
         expected = 85.43923404
 
-        actual = self.annuity.present_value(True)
+        actual = self.annuity.present_value(aggregate=True)
 
         assert np.allclose(actual, expected)

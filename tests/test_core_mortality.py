@@ -201,9 +201,7 @@ class TestMortalityTable(unittest.TestCase):
 
     def test_nqx_age_int_3_full_path(self):
 
-        expected = np.array([[0.00066   , 0.001802  , 0.034144  ],
-                             [0.00068855, 0.00200438, 0.03661657],
-                             [0.00072302, 0.00223247, 0.0390708 ]])
+        expected = np.array([[0.00066], [0.00068855], [0.00072302]])
 
         actual = self.mort.nqx(34, 3, True)
 

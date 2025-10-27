@@ -4,7 +4,6 @@ from modelic.core.cashflows import BaseCashflowModel
 from modelic.core.curves import YieldCurve, IndexCurve
 from modelic.core.custom_types import IntArrayLike, ArrayLike
 
-# TODO: Implement spreads
 # TODO: Implement indexation
 class BondLike(BaseCashflowModel):
 
