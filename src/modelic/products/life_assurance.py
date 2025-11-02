@@ -6,7 +6,7 @@ from modelic.core.mortality import MortalityTable
 from modelic.core.custom_types import IntArrayLike, ArrayLike
 
 
-class Annuity(BaseCashflowModel):
+class LifeAssurance(BaseCashflowModel):
 
     def __init__(self,
                  age: IntArrayLike,
@@ -27,8 +27,8 @@ class Annuity(BaseCashflowModel):
         self.discount_curve = discount_curve
 
     def project_cashflows(self, aggregate: bool = True) -> ArrayLike:
-        surv = self.mortality.npx(self.age, self.term, True)
-        cfs = self.amount * surv
+        death_in_year = self.mortality.nqx(self.age, self.term, True)
+        cfs = self.amount * death_in_year
         if aggregate:
             cfs = cfs.sum(axis=1)
         return cfs

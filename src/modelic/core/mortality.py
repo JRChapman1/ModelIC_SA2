@@ -48,6 +48,8 @@ class MortalityTable:
                 else:
                     idx_end = idx + n
 
+                idx_end = idx_end.clip(0, self.max_age - self.min_age)
+
                 return self.lx[idx_end] / self.lx[idx]
 
 

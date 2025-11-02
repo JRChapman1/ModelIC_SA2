@@ -7,7 +7,7 @@ from modelic.core.mortality import MortalityTable
 from modelic.products.annuity import Annuity
 
 
-class TestMortalityTable(unittest.TestCase):
+class TestAnnuity(unittest.TestCase):
 
     mort_raw = pd.read_csv("data/mortality/AM92.csv")
     ages = mort_raw['x'].to_numpy(int)
@@ -20,42 +20,60 @@ class TestMortalityTable(unittest.TestCase):
     discount_curve = YieldCurve(times, zeros, 'BoE')
 
     age = [34, 47, 73]
-    term = 3
     amount = [5, 10, 15]
 
-    annuity = Annuity(age, term, amount, mortality, discount_curve)
+    annuity_t3 = Annuity(age, 3, amount, mortality, discount_curve)
+    annuity = Annuity(age, None, amount, mortality, discount_curve)
 
-    def test_project_cashflows(self):
+    def test_project_cashflows_term_3(self):
 
         expected = np.array([[4.9967,9.98198,14.48784],
                              [4.9932572737,9.96193618416,13.93859149776],
                              [4.98964215543384,9.9396114851713,13.3525294796452]])
 
-        actual = self.annuity.project_cashflows(aggregate=False)
+        actual = self.annuity_t3.project_cashflows(aggregate=False)
 
         assert actual.shape == expected.shape
         assert np.allclose(actual, expected)
 
-    def test_project_cashflows_aggregated(self):
+    def test_project_cashflows_aggregated_term_3(self):
 
         expected = np.array([29.46652   , 28.89378496, 28.28178312])
 
-        actual = self.annuity.project_cashflows(aggregate=True)
+        actual = self.annuity_t3.project_cashflows(aggregate=True)
+
+        assert np.allclose(actual, expected)
+
+    def test_present_value_term_3(self):
+
+        expected = np.array([14.76985138, 29.46534658, 41.20403608])
+
+        actual = self.annuity_t3.present_value(aggregate=False)
+
+        assert actual.shape == expected.shape
+        assert np.allclose(actual, expected)
+
+    def test_present_value_aggregated_term_3(self):
+
+        expected = 85.43923404
+
+        actual = self.annuity_t3.present_value(aggregate=True)
 
         assert np.allclose(actual, expected)
 
     def test_present_value(self):
 
-        expected = np.array([14.76985138, 29.46534658, 41.20403608])
+        expected = np.array([172.8855834, 263.5107767, 152.4597913])
 
         actual = self.annuity.present_value(aggregate=False)
 
         assert actual.shape == expected.shape
         assert np.allclose(actual, expected)
 
+
     def test_present_value_aggregated(self):
 
-        expected = 85.43923404
+        expected = 588.8561514
 
         actual = self.annuity.present_value(aggregate=True)
 
