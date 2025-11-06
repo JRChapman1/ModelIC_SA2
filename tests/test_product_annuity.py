@@ -9,12 +9,12 @@ from modelic.products.annuity import Annuity
 
 class TestAnnuity(unittest.TestCase):
 
-    mort_raw = pd.read_csv("data/mortality/AM92.csv")
+    mort_raw = pd.read_csv("../data/mortality/AM92.csv")
     ages = mort_raw['x'].to_numpy(int)
     qx = mort_raw['q_x'].to_numpy(float)
     mortality = MortalityTable(ages, qx, 'AM92')
 
-    disc_raw = pd.read_csv("data/curves/boe_spot_annual.csv")
+    disc_raw = pd.read_csv("../data/curves/boe_spot_annual.csv")
     times = disc_raw['year'].to_numpy(int)
     zeros = disc_raw['rate'].to_numpy(float)
     discount_curve = YieldCurve(times, zeros, 'BoE')

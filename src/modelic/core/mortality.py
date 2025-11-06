@@ -54,7 +54,7 @@ class MortalityTable:
 
 
     def nqx(self, age: IntArrayLike, n: int = 1, full_path: bool = False) -> ArrayLike:
-        age = np.asarray(age, dtype=int)
+        age = np.asarray(age.copy(), dtype=int)
         match n:
             case 0:
                 return np.zeros(age.size)

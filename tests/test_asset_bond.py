@@ -8,7 +8,7 @@ from modelic.assets.bonds import BondLike
 
 class TestMortalityTable(unittest.TestCase):
 
-    disc_raw = pd.read_csv("data/curves/boe_spot_annual.csv")
+    disc_raw = pd.read_csv("../data/curves/boe_spot_annual.csv")
     times = disc_raw['year'].to_numpy(int)
     zeros = disc_raw['rate'].to_numpy(float)
     discount_curve = YieldCurve(times, zeros, 'BoE')
@@ -22,18 +22,9 @@ class TestMortalityTable(unittest.TestCase):
 
     def test_project_cashflows(self):
 
-        expected = np.array([[3000, 6750, 5820],
-[3000, 6750, 5820],
-[3000, 6750, 5820],
-[3000, 6750, 5820],
-[3000, 6750, 5820],
-[3000, 6750, 5820],
-[3000, 6750, 102820],
-[3000, 6750, 0],
-[3000, 6750, 0],
-[103000, 6750, 0],
-[0, 6750, 0],
-[0, 141750, 0]])
+        expected = np.array([[3000, 6750, 5820], [3000, 6750, 5820], [3000, 6750, 5820], [3000, 6750, 5820],
+                             [3000, 6750, 5820], [3000, 6750, 5820], [3000, 6750, 102820], [3000, 6750, 0],
+                             [3000, 6750, 0], [103000, 6750, 0], [0, 6750, 0], [0, 141750, 0]])
 
         actual = self.bond_portfolio.project_cashflows(False)
 
@@ -42,8 +33,7 @@ class TestMortalityTable(unittest.TestCase):
 
     def test_project_cashflows_aggregated(self):
 
-        expected = np.array([ 15570,  15570,  15570,  15570,  15570,  15570, 112570,   9750,
-         9750, 109750,   6750, 141750])
+        expected = np.array([15570, 15570, 15570, 15570, 15570, 15570, 112570, 9750, 9750, 109750, 6750, 141750])
 
         actual = self.bond_portfolio.project_cashflows(True)
 
