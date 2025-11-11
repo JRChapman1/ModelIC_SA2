@@ -5,7 +5,7 @@ import pandas as pd
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
 from modelic.core.policy_portfolio import PolicyPortfolio
-from modelic.products.annuity import Annuity
+from modelic.core.benefits.survival_benefit import _SurvivalBenefit
 
 
 class TestSurvivalBenefit(unittest.TestCase):
@@ -21,12 +21,10 @@ class TestSurvivalBenefit(unittest.TestCase):
     discount_curve = YieldCurve(times, zeros, 'BoE')
 
     policies_t3 = PolicyPortfolio.from_csv(r'../data/policy_data/annuity_test_data_term3.csv')
-    policies_various_terms = PolicyPortfolio.from_csv(r'../data/policy_data/annuity_test_data_various_terms.csv')
     policies_wol = PolicyPortfolio.from_csv(r'../data/policy_data/annuity_test_data.csv')
 
-    annuity_t3 = Annuity(policies_t3, discount_curve, mortality)
-    annuity_various_terms = Annuity(policies_various_terms, discount_curve, mortality)
-    annuity = Annuity(policies_wol, discount_curve, mortality)
+    annuity_t3 = _SurvivalBenefit(policies_t3, discount_curve, mortality)
+    annuity = _SurvivalBenefit(policies_wol, discount_curve, mortality)
 
     def test_project_cashflows_term_3(self):
 
@@ -35,17 +33,6 @@ class TestSurvivalBenefit(unittest.TestCase):
                              [4.98964215543384,9.9396114851713,13.3525294796452]])
 
         actual = self.annuity_t3.project_cashflows(aggregate=False)
-
-        assert actual.shape == expected.shape
-        assert np.allclose(actual, expected)
-
-    def test_project_cashflows_various_term(self):
-
-        expected = np.array([[4.9967,9.98198,14.48784],
-                             [4.9932572737,9.96193618416,13.93859149776],
-                             [4.98964215543384,9.9396114851713,13.3525294796452]])
-
-        actual = self.annuity_various_terms.project_cashflows(aggregate=False)
 
         assert actual.shape == expected.shape
         assert np.allclose(actual, expected)

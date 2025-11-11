@@ -33,24 +33,20 @@ class MortalityTable:
 
 
     def npx(self, age: IntArrayLike, n: int = 1, full_path: bool = False) -> ArrayLike:
-        age = np.asarray(age, dtype=int)
-        match n:
-            case 0:
-                return np.ones(age.size)
-            case 1:
-                return 1 - self.nqx(age)
-            case _:
-                age -= 1
-                idx = self._resolve_idx(age)
+        age = np.asarray(age.copy(), dtype=int)
+        n = np.asarray(n.copy(), dtype=int)
 
-                if full_path:
-                    idx_end = idx.reshape(1, -1) + np.arange(n).reshape(-1, 1) + 1
-                else:
-                    idx_end = idx + n
+        age -= 1
+        idx = self._resolve_idx(age)
 
-                idx_end = idx_end.clip(0, self.max_age - self.min_age)
+        if full_path:
+            idx_end = idx.reshape(1, -1) + np.arange(n).reshape(-1, 1) + 1
+        else:
+            idx_end = idx + n
 
-                return self.lx[idx_end] / self.lx[idx]
+        idx_end = idx_end.clip(0, self.max_age - self.min_age)
+
+        return self.lx[idx_end] / self.lx[idx]
 
 
     def nqx(self, age: IntArrayLike, n: int = 1, full_path: bool = False) -> ArrayLike:

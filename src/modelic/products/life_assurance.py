@@ -1,5 +1,3 @@
-import numpy as np
-
 from modelic.core.cashflows import CompositeProduct
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable

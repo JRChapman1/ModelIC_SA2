@@ -12,8 +12,6 @@ class _DeathBenefit(BaseCashflowModel):
 
     def __init__(self, policy_data: PolicyPortfolio, yield_curve: YieldCurve, mortality_table: MortalityTable):
 
-        policy_data = policy_data
-
         # TODO: Expects all policies to have same term
         if policy_data.terms is None:
             term = mortality_table.max_age - mortality_table.min_age
