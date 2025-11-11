@@ -5,10 +5,10 @@ import pandas as pd
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
 from modelic.core.policy_portfolio import PolicyPortfolio
-from modelic.products.life_assurance import LifeAssurance
+from modelic.core.benefits.death_benefit import _DeathBenefit
 
 
-class TestLifeAssurance(unittest.TestCase):
+class TestDeathBenefit(unittest.TestCase):
 
     mort_raw = pd.read_csv("../data/mortality/AM92.csv")
     ages = mort_raw['x'].to_numpy(int)
@@ -23,8 +23,8 @@ class TestLifeAssurance(unittest.TestCase):
     wol_policies = PolicyPortfolio.from_csv(r'../data/policy_data/wol_test_data.csv')
     term_policies = PolicyPortfolio.from_csv(r'../data/policy_data/ta_test_data.csv')
 
-    term_death_benefit = LifeAssurance(term_policies, discount_curve, mortality)
-    wol_death_benefit = LifeAssurance(wol_policies, discount_curve, mortality)
+    term_death_benefit = _DeathBenefit(term_policies, discount_curve, mortality)
+    wol_death_benefit = _DeathBenefit(wol_policies, discount_curve, mortality)
 
     def test_project_cashflows_term_3(self):
 
@@ -41,7 +41,7 @@ class TestLifeAssurance(unittest.TestCase):
 
         expected = np.array([[0.53348], [0.572735044], [0.612001835]])
 
-        actual = self.term_death_benefit.project_cashflows()
+        actual = self.term_death_benefit.project_cashflows(aggregate=True)
 
         assert np.allclose(actual, expected)
 

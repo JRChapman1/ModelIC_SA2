@@ -1,34 +1,14 @@
-import numpy as np
-
-from modelic.core.cashflows import BaseCashflowModel
+from modelic.core.cashflows import CompositeProduct
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
-from modelic.core.custom_types import IntArrayLike, ArrayLike
+from modelic.core.benefits.survival_benefit import _SurvivalBenefit
+from modelic.core.policy_portfolio import PolicyPortfolio
 
 
-class Annuity(BaseCashflowModel):
+class Annuity(CompositeProduct):
 
-    def __init__(self,
-                 age: IntArrayLike,
-                 term: IntArrayLike,
-                 amount: ArrayLike,
-                 mortality: MortalityTable,
-                 discount_curve: YieldCurve):
+    """ Projects cashflows and calculates present values for death contingent benefits """
 
-        if term is None:
-            term = mortality.max_age - mortality.min_age
-
-        super().__init__(np.arange(1, term + 1), discount_curve)
-
-        self.age = age
-        self.term = term
-        self.amount = amount
-        self.mortality = mortality
-        self.discount_curve = discount_curve
-
-    def project_cashflows(self, aggregate: bool = True) -> ArrayLike:
-        surv = self.mortality.npx(self.age, self.term, True)
-        cfs = self.amount * surv
-        if aggregate:
-            cfs = cfs.sum(axis=1)
-        return cfs
+    def __init__(self, policy_data: PolicyPortfolio, yield_curve: YieldCurve, mortality_table: MortalityTable):
+        components = [_SurvivalBenefit(policy_data, yield_curve, mortality_table)]
+        super().__init__(components, yield_curve)

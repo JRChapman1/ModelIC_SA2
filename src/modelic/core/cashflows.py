@@ -13,7 +13,7 @@ class BaseCashflowModel(ABC):
         self.curve = curve
 
     @abstractmethod
-    def project_cashflows(self, aggregate: bool = True):
+    def project_cashflows(self):
         pass
 
     def discount_factors(self, spread: ArrayLike = 0) -> np.ndarray:
@@ -22,21 +22,32 @@ class BaseCashflowModel(ABC):
 
     def present_value(self, spread: ArrayLike = 0, aggregate: bool = True):
 
-        cf = self.project_cashflows(False)
+        cf = self.project_cashflows(aggregate)
         df = self.discount_factors(spread)
         pv = (df * cf).sum(axis=0)
 
-        if aggregate:
-            pv = pv.sum().sum()
+        return float(pv.sum()) if aggregate else pv
 
-        return pv
 
-    def expected_value(self, spread: ArrayLike = 0, probabilities = None):
+class CompositeProduct(BaseCashflowModel):
+    """Aggregates multiple BaseCashflowModel components into one"""
 
-        cf = self.project_cashflows()
-        if probabilities is not None:
-            cf *= probabilities
+    def __init__(self, components: list[BaseCashflowModel], yield_curve: YieldCurve):
 
-        df = self.discount_factors()[:, None]
+        # Ensure at least one component and store as property
+        assert components
+        self.components = components
 
-        return cf @ df
+        times = np.unique(np.concatenate([c.times for c in components]))
+        super().__init__(times, yield_curve)
+
+    def project_cashflows(self, aggregate: bool = True) -> ArrayLike:
+
+        cfs = sum([c.project_cashflows(aggregate) for c in self.components])
+        return cfs
+
+    def present_value(self, spread: ArrayLike = 0, aggregate: bool = True):
+
+        pvs = sum(c.present_value(spread, aggregate) for c in self.components)
+
+        return float(sum(pvs)) if aggregate and (type(pvs) is not float) else pvs
