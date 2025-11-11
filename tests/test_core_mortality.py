@@ -3,11 +3,11 @@ import numpy as np
 import pandas as pd
 
 from modelic.core.mortality import MortalityTable
-
+from _data import data_path
 
 class TestMortalityTable(unittest.TestCase):
 
-    df = pd.read_csv("../data/mortality/AM92.csv")
+    df = pd.read_csv(data_path("mortality", "AM92.csv"))
     ages = df['x'].to_numpy(int)
     qx = df['q_x'].to_numpy(float)
     mort = MortalityTable(ages, qx, 'AM92')

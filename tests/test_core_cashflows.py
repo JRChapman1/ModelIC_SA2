@@ -4,6 +4,7 @@ import pandas as pd
 
 from modelic.core.cashflows import BaseCashflowModel
 from modelic.core.curves import YieldCurve
+from _data import data_path
 
 
 class BaseCashflowModelImplementation(BaseCashflowModel):
@@ -12,7 +13,7 @@ class BaseCashflowModelImplementation(BaseCashflowModel):
 
 class TestBaseCashflowModelImplementation(unittest.TestCase):
 
-    base_spot = pd.read_csv("../data/curves/boe_spot_annual.csv")
+    base_spot = pd.read_csv(data_path("curves", "boe_spot_annual.csv"))
     times = base_spot['year'].to_numpy(int)
     zeros = base_spot['rate'].to_numpy(float)
     yc = YieldCurve(times, zeros, 'BoE')

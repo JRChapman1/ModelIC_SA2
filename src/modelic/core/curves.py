@@ -65,7 +65,7 @@ class YieldCurve:
         return('foo') # TODO: This should override print(cls) functionality
 
     def _resolve_idx(self, times: np.ndarray) -> np.ndarray:
-        return times - self.min_time
+        return (times - self.min_time).astype(int)
 
 @dataclass(frozen=True)
 class IndexCurve:

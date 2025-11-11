@@ -52,7 +52,7 @@ class MortalityTable:
         if type(term) is int and type(age) is not int:
             term = np.repeat(term, len(age))
         else:
-            term = np.asarray(term, dtype=int)
+            term = np.asarray(term, dtype=int).copy()
         age = np.asarray(age, dtype=int)
 
         if full_path:
@@ -65,7 +65,7 @@ class MortalityTable:
         if type(term) is int and type(age) is not int:
             term = np.repeat(term, len(age))
         else:
-            term = np.asarray(term, dtype=int)
+            term = np.asarray(term, dtype=int).copy()
         age = np.asarray(age, dtype=int)
 
         if not full_path:

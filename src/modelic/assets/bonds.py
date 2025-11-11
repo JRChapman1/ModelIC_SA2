@@ -34,6 +34,6 @@ class BondLike(BaseCashflowModel):
             cfs[dur, j] = (1 + coupon) * notional
 
         if aggregate:
-            cfs = cfs.sum(axis=1)
+            cfs = cfs.sum(axis=1).reshape(-1, 1)
 
         return cfs

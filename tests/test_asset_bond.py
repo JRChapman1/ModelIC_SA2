@@ -4,11 +4,12 @@ import pandas as pd
 
 from modelic.core.curves import YieldCurve
 from modelic.assets.bonds import BondLike
+from _data import data_path
 
 
 class TestMortalityTable(unittest.TestCase):
 
-    disc_raw = pd.read_csv("../data/curves/boe_spot_annual.csv")
+    disc_raw = pd.read_csv(data_path("curves", "boe_spot_annual.csv"))
     times = disc_raw['year'].to_numpy(int)
     zeros = disc_raw['rate'].to_numpy(float)
     discount_curve = YieldCurve(times, zeros, 'BoE')
@@ -33,10 +34,11 @@ class TestMortalityTable(unittest.TestCase):
 
     def test_project_cashflows_aggregated(self):
 
-        expected = np.array([15570, 15570, 15570, 15570, 15570, 15570, 112570, 9750, 9750, 109750, 6750, 141750])
+        expected = np.array([[15570], [15570], [15570], [15570], [15570], [15570], [112570], [9750], [9750], [109750], [6750], [141750]])
 
         actual = self.bond_portfolio.project_cashflows(True)
 
+        assert actual.shape == expected.shape
         assert np.allclose(actual, expected)
 
     def test_present_value(self):

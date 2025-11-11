@@ -26,7 +26,7 @@ class _SurvivalBenefit(BaseCashflowModel):
 
     def project_cashflows(self, aggregate: bool = True) -> ArrayLike:
 
-        survival_to_year = self.mortality.npx(self.age, self.term, True)
+        survival_to_year = self.mortality.npx(self.age, self.term, full_path=True)
 
         cfs = 0
         if self.periodic_amount is not None:

@@ -12,11 +12,10 @@ class _DeathBenefit(BaseCashflowModel):
 
     def __init__(self, policy_data: PolicyPortfolio, yield_curve: YieldCurve, mortality_table: MortalityTable):
 
-        # TODO: Expects all policies to have same term
-        if policy_data.terms is None:
+        if policy_data.terms is None or np.isnan(policy_data.terms).any():
             term = mortality_table.max_age - mortality_table.min_age
         else:
-            term = int(policy_data.terms[0])
+            term = int(policy_data.terms.max())
 
 
         super().__init__(np.arange(1, term + 1), yield_curve)
@@ -29,7 +28,7 @@ class _DeathBenefit(BaseCashflowModel):
 
     def project_cashflows(self, aggregate: bool = True) -> ArrayLike:
 
-        death_in_year = self.mortality.nqx(self.age, self.term, True)
+        death_in_year = self.mortality.nqx(self.age, self.term, full_path=True)
         cfs = self.amount * death_in_year
 
         return cfs.sum(axis=1).reshape(-1, 1) if aggregate else cfs

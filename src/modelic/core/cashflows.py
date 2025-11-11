@@ -22,7 +22,7 @@ class BaseCashflowModel(ABC):
 
     def present_value(self, spread: ArrayLike = 0, aggregate: bool = True):
 
-        cf = self.project_cashflows(aggregate)
+        cf = self.project_cashflows(aggregate=False)
         df = self.discount_factors(spread)
         pv = (df * cf).sum(axis=0)
 

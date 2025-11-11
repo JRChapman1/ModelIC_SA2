@@ -6,22 +6,23 @@ from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
 from modelic.core.policy_portfolio import PolicyPortfolio
 from modelic.core.benefits.survival_benefit import _SurvivalBenefit
+from _data import data_path
 
 
 class TestSurvivalBenefit(unittest.TestCase):
 
-    mort_raw = pd.read_csv("../data/mortality/AM92.csv")
+    mort_raw = pd.read_csv(data_path("mortality", "AM92.csv"))
     ages = mort_raw['x'].to_numpy(int)
     qx = mort_raw['q_x'].to_numpy(float)
     mortality = MortalityTable(ages, qx, 'AM92')
 
-    disc_raw = pd.read_csv("../data/curves/boe_spot_annual.csv")
+    disc_raw = pd.read_csv(data_path("curves", "boe_spot_annual.csv"))
     times = disc_raw['year'].to_numpy(int)
     zeros = disc_raw['rate'].to_numpy(float)
     discount_curve = YieldCurve(times, zeros, 'BoE')
 
-    policies_t3 = PolicyPortfolio.from_csv(r'../data/policy_data/annuity_test_data_term3.csv')
-    policies_wol = PolicyPortfolio.from_csv(r'../data/policy_data/annuity_test_data.csv')
+    policies_t3 = PolicyPortfolio.from_csv(data_path("policy_data", "annuity_test_data_term3.csv"))
+    policies_wol = PolicyPortfolio.from_csv(data_path("policy_data", "annuity_test_data.csv"))
 
     annuity_t3 = _SurvivalBenefit(policies_t3, discount_curve, mortality)
     annuity = _SurvivalBenefit(policies_wol, discount_curve, mortality)

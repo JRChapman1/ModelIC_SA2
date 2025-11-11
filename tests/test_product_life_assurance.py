@@ -6,22 +6,23 @@ from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
 from modelic.core.policy_portfolio import PolicyPortfolio
 from modelic.products.life_assurance import LifeAssurance
+from _data import data_path
 
 
 class TestLifeAssurance(unittest.TestCase):
 
-    mort_raw = pd.read_csv("../data/mortality/AM92.csv")
+    mort_raw = pd.read_csv(data_path("mortality", "AM92.csv"))
     ages = mort_raw['x'].to_numpy(int)
     qx = mort_raw['q_x'].to_numpy(float)
     mortality = MortalityTable(ages, qx, 'AM92')
 
-    disc_raw = pd.read_csv("../data/curves/boe_spot_annual.csv")
+    disc_raw = pd.read_csv(data_path("curves", "boe_spot_annual.csv"))
     times = disc_raw['year'].to_numpy(int)
     zeros = disc_raw['rate'].to_numpy(float)
     discount_curve = YieldCurve(times, zeros, 'BoE')
 
-    wol_policies = PolicyPortfolio.from_csv(r'../data/policy_data/wol_test_data.csv')
-    term_policies = PolicyPortfolio.from_csv(r'../data/policy_data/ta_test_data.csv')
+    wol_policies = PolicyPortfolio.from_csv(data_path("policy_data", "wol_test_data.csv"))
+    term_policies = PolicyPortfolio.from_csv(data_path("policy_data", "ta_test_data.csv"))
 
     term_death_benefit = LifeAssurance(term_policies, discount_curve, mortality)
     wol_death_benefit = LifeAssurance(wol_policies, discount_curve, mortality)
