@@ -70,7 +70,7 @@ class MortalityTable:
 
         if not full_path:
             term -= 1
-        return self._filter_table(self.death_table, self._resolve_idx(age), term, num_rows=proj_horizon, fill_val=1.0, full_path=full_path)
+        return self._filter_table(self.death_table, self._resolve_idx(age), term, num_rows=proj_horizon, fill_val=0.0, full_path=full_path)
 
     def _filter_table(self, array, col_filter, row_filter, *, num_rows = None, fill_val = np.nan, full_path = True):
         col_filter = np.asarray(col_filter, dtype=int)

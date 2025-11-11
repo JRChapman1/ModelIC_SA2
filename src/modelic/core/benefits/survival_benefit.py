@@ -24,14 +24,17 @@ class _SurvivalBenefit(BaseCashflowModel):
         self.mortality = mortality_table
         self.discount_curve = yield_curve
 
-    def project_cashflows(self, aggregate: bool = True) -> ArrayLike:
+    def project_cashflows(self, aggregate: bool = True, proj_horizon = None) -> ArrayLike:
 
-        survival_to_year = self.mortality.npx(self.age, self.term, full_path=True)
+        if proj_horizon is None:
+            proj_horizon = int(self.term.max())
 
-        cfs = 0
+        cfs = np.zeros((proj_horizon, self.age.size))
         if self.periodic_amount is not None:
-            cfs += self.periodic_amount * survival_to_year
+            survival_path = self.mortality.npx(self.age, self.term, full_path=True)
+            cfs += self.periodic_amount * survival_path
         if self.terminal_amount is not None:
-            cfs += self.terminal_amount * survival_to_year[-1, :]
+            survival_to_year = self.mortality.npx(self.age, self.term, full_path=False)
+            cfs[self.term - 1, np.arange(self.age.size)] += self.terminal_amount * survival_to_year
 
         return cfs.sum(axis=1).reshape(-1, 1) if aggregate else cfs

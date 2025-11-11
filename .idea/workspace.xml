@@ -4,35 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="275dd8c0-08fc-44d0-9bb6-8c277ef0d324" name="Changes" comment="full_path option added to mortality">
-      <change afterPath="$PROJECT_DIR$/src/modelic/core/benefits/death.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modelic/core/benefits/survival.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ModelIC.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ModelIC.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/curves/boe_spot_annual.csv" beforeDir="false" afterPath="$PROJECT_DIR$/tests/data/curves/boe_spot_annual.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/mortality/AM92.csv" beforeDir="false" afterPath="$PROJECT_DIR$/tests/data/mortality/AM92.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/policy_data/annuity_test_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/tests/data/policy_data/annuity_test_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/policy_data/annuity_test_data_term3.csv" beforeDir="false" afterPath="$PROJECT_DIR$/tests/data/policy_data/annuity_test_data_term3.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/policy_data/annuity_test_data_various_terms.csv" beforeDir="false" afterPath="$PROJECT_DIR$/tests/data/policy_data/annuity_test_data_various_terms.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/policy_data/ta_test_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/tests/data/policy_data/ta_test_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/policy_data/wol_test_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/tests/data/policy_data/wol_test_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/assets/bonds.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/assets/bonds.py" afterDir="false" />
+    <list default="true" id="275dd8c0-08fc-44d0-9bb6-8c277ef0d324" name="Changes" comment="All unit tests passing">
+      <change afterPath="$PROJECT_DIR$/src/modelic/products/endowment.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modelic/products/pure_endowment.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_product_endowment.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_product_pure_endowment.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modelic/core/benefits/death_benefit.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/benefits/death_benefit.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modelic/core/benefits/survival_benefit.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/benefits/survival_benefit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/core/cashflows.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/cashflows.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/core/curves.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/curves.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/core/custom_types.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/custom_types.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modelic/core/mortality.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/mortality.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_asset_bond.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_asset_bond.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_core_benefits_death_benefit.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_core_benefits_death_benefit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_core_benefits_survival_benefit.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_core_benefits_survival_benefit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_core_cashflows.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_core_cashflows.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_core_curves.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_core_curves.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test_core_mortality.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_core_mortality.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_core_policy_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_core_policy_portfolio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_product_annuity.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_product_annuity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_product_life_assurance.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_product_life_assurance.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +67,7 @@
     "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_npx_age_arr_t3_full_path.executor": "Debug",
     "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_npx_age_int_t3.executor": "Run",
     "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_3_full_path.executor": "Run",
+    "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_3_full_path2.executor": "Debug",
     "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_t0.executor": "Run",
     "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_t1.executor": "Run",
     "Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_t3.executor": "Run",
@@ -133,8 +114,18 @@
     "Python tests.Python tests for tests.test_product_annuity.TestSurvivalBenefit.test_present_value.executor": "Debug",
     "Python tests.Python tests for tests.test_product_annuity.TestSurvivalBenefit.test_present_value_term_3.executor": "Run",
     "Python tests.Python tests for tests.test_product_annuity.TestSurvivalBenefit.test_project_cashflows_various_term.executor": "Debug",
+    "Python tests.Python tests for tests.test_product_endowment.TestPureEndowment.executor": "Run",
+    "Python tests.Python tests for tests.test_product_endowment.TestPureEndowment.test_present_value.executor": "Run",
+    "Python tests.Python tests for tests.test_product_endowment.TestPureEndowment.test_present_value_aggregated.executor": "Run",
+    "Python tests.Python tests for tests.test_product_endowment.TestPureEndowment.test_project_cashflows.executor": "Run",
+    "Python tests.Python tests for tests.test_product_endowment.TestPureEndowment.test_project_cashflows_aggregated.executor": "Run",
     "Python tests.Python tests for tests.test_product_life_assurance.TestLifeAssurance.executor": "Run",
+    "Python tests.Python tests for tests.test_product_life_assurance.TestLifeAssurance.test_present_value_aggregated.executor": "Debug",
     "Python tests.Python tests for tests.test_product_life_assurance.TestLifeAssurance.test_project_cashflows_aggregated_term_3.executor": "Run",
+    "Python tests.Python tests for tests.test_product_pure_endowment.TestPureEndowment.test_cashflows.executor": "Debug",
+    "Python tests.Python tests for tests.test_product_pure_endowment.TestPureEndowment.test_cashflows_aggregated.executor": "Run",
+    "Python tests.Python tests for tests.test_product_pure_endowment.TestPureEndowment.test_present_value.executor": "Run",
+    "Python tests.Python tests for tests.test_product_pure_endowment.TestPureEndowment.test_present_value_aggregated.executor": "Run",
     "Python tests.Python tests in test_asset_bond.py.executor": "Run",
     "Python tests.Python tests in test_core_benefits_death_benefit.py.executor": "Run",
     "Python tests.Python tests in test_core_benefits_survival_benefit.py.executor": "Run",
@@ -143,6 +134,7 @@
     "Python tests.Python tests in test_core_mortality.py.executor": "Run",
     "Python tests.Python tests in test_core_policy_portfolio.py.executor": "Debug",
     "Python tests.Python tests in test_product_annuity.py.executor": "Debug",
+    "Python tests.Python tests in test_product_pure_endowment.py.executor": "Run",
     "Python tests.Python tests in tests.executor": "Run",
     "Python.loaders.executor": "Debug",
     "Python.main.executor": "Run",
@@ -167,7 +159,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Python tests.Python tests in tests">
-    <configuration name="Python tests for tests.test_asset_bond.TestMortalityTable.test_project_cashflows_aggregated" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_3_full_path2" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="ModelIC" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -178,11 +170,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_asset_bond.TestMortalityTable.test_project_cashflows_aggregated&quot;" />
+      <option name="_new_target" value="&quot;tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_3_full_path2&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.test_product_annuity.TestSurvivalBenefit.test_present_value" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.test_product_endowment.TestPureEndowment" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="ModelIC" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -193,11 +185,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_product_annuity.TestSurvivalBenefit.test_present_value&quot;" />
+      <option name="_new_target" value="&quot;tests.test_product_endowment.TestPureEndowment&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.test_product_annuity.TestSurvivalBenefit.test_present_value_term_3" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.test_product_endowment.TestPureEndowment.test_present_value_aggregated" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="ModelIC" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -208,11 +200,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_product_annuity.TestSurvivalBenefit.test_present_value_term_3&quot;" />
+      <option name="_new_target" value="&quot;tests.test_product_endowment.TestPureEndowment.test_present_value_aggregated&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.test_product_annuity.TestSurvivalBenefit.test_project_cashflows_various_term" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.test_product_life_assurance.TestLifeAssurance.test_present_value_aggregated" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="ModelIC" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -223,7 +215,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_product_annuity.TestSurvivalBenefit.test_project_cashflows_various_term&quot;" />
+      <option name="_new_target" value="&quot;tests.test_product_life_assurance.TestLifeAssurance.test_present_value_aggregated&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -245,10 +237,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python tests.Python tests in tests" />
-        <item itemvalue="Python tests.Python tests for tests.test_asset_bond.TestMortalityTable.test_project_cashflows_aggregated" />
-        <item itemvalue="Python tests.Python tests for tests.test_product_annuity.TestSurvivalBenefit.test_present_value" />
-        <item itemvalue="Python tests.Python tests for tests.test_product_annuity.TestSurvivalBenefit.test_project_cashflows_various_term" />
-        <item itemvalue="Python tests.Python tests for tests.test_product_annuity.TestSurvivalBenefit.test_present_value_term_3" />
+        <item itemvalue="Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_3_full_path2" />
+        <item itemvalue="Python tests.Python tests for tests.test_product_life_assurance.TestLifeAssurance.test_present_value_aggregated" />
+        <item itemvalue="Python tests.Python tests for tests.test_product_endowment.TestPureEndowment" />
+        <item itemvalue="Python tests.Python tests for tests.test_product_endowment.TestPureEndowment.test_present_value_aggregated" />
       </list>
     </recent_temporary>
   </component>
@@ -299,7 +291,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761479767043</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="All unit tests passing">
+      <option name="closed" value="true" />
+      <created>1762878801621</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1762878801621</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -307,7 +307,8 @@
     <MESSAGE value="New simplified (working) mortality module and unit tests added" />
     <MESSAGE value="Fix to code in prior commit" />
     <MESSAGE value="full_path option added to mortality" />
-    <option name="LAST_COMMIT_MESSAGE" value="full_path option added to mortality" />
+    <MESSAGE value="All unit tests passing" />
+    <option name="LAST_COMMIT_MESSAGE" value="All unit tests passing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -373,11 +374,6 @@
           <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/test_core_mortality.py</url>
-          <line>10</line>
-          <option name="timeStamp" value="237" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/tests/test_core_benefits_death_benefit.py</url>
           <line>54</line>
           <option name="timeStamp" value="243" />
@@ -396,6 +392,46 @@
           <url>file://$PROJECT_DIR$/tests/test_asset_bond.py</url>
           <line>58</line>
           <option name="timeStamp" value="265" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_product_pure_endowment.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="271" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_product_pure_endowment.py</url>
+          <line>66</line>
+          <option name="timeStamp" value="272" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_product_endowment.py</url>
+          <line>40</line>
+          <option name="timeStamp" value="275" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_product_endowment.py</url>
+          <line>38</line>
+          <option name="timeStamp" value="277" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/modelic/core/benefits/death_benefit.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="278" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/modelic/core/cashflows.py</url>
+          <line>45</line>
+          <option name="timeStamp" value="279" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/modelic/core/cashflows.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="280" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_core_mortality.py</url>
+          <line>263</line>
+          <option name="timeStamp" value="281" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

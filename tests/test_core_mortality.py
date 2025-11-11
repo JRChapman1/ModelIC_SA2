@@ -257,7 +257,7 @@ class TestMortalityTable(unittest.TestCase):
 
         expected = np.array([[0.00066   , 0.001802  , 0.034144  ],
                              [0.00068855, 0.00200438, 0.03661657],
-                             [0.00072302, 1.        , 0.0390708 ]])
+                             [0.00072302, 0.        , 0.0390708 ]])
 
         actual = self.mort.nqx([34, 47, 73], [3, 2, 3], full_path=True)
 

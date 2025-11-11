@@ -12,16 +12,13 @@ class _DeathBenefit(BaseCashflowModel):
 
     def __init__(self, policy_data: PolicyPortfolio, yield_curve: YieldCurve, mortality_table: MortalityTable):
 
-        if policy_data.terms is None or np.isnan(policy_data.terms).any():
-            term = mortality_table.max_age - mortality_table.min_age
-        else:
-            term = int(policy_data.terms.max())
+        policy_terms = policy_data.terms
+        policy_terms[np.isnan(policy_data.terms)] = mortality_table.max_age - mortality_table.min_age
 
-
-        super().__init__(np.arange(1, term + 1), yield_curve)
+        super().__init__(np.arange(1, policy_terms.max() + 1), yield_curve)
 
         self.age = policy_data.ages
-        self.term = term
+        self.term = policy_data.terms
         self.amount = policy_data.death_contingent_benefits
         self.mortality = mortality_table
         self.discount_curve = yield_curve
