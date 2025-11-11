@@ -29,46 +29,62 @@ class MortalityTable:
 
     @cached_property
     def lx(self) -> np.ndarray:
-        return (1 - self.qx).cumprod()
+        return np.concatenate(([1.0], (1 - self.qx).cumprod()))
 
+    @cached_property
+    def survival_table(self) -> np.ndarray:
+        return self._hankel(self.lx[:-1]) / self.lx[:-1]
 
-    def npx(self, age: IntArrayLike, n: int = 1, full_path: bool = False) -> ArrayLike:
-        age = np.asarray(age.copy(), dtype=int)
-        n = np.asarray(n.copy(), dtype=int)
+    @cached_property
+    def death_table(self) -> np.ndarray:
+        return self._hankel(self.qx) * self.survival_table
 
-        age -= 1
-        idx = self._resolve_idx(age)
+    @staticmethod
+    def _hankel(arr_in):
+        n = len(arr_in)
+        out = np.zeros((n, n), dtype=float)
+        for i in range(n):
+            out[:(n - i), i] = arr_in[i:]
+        return out
+
+    def npx(self, age, term=1, *, proj_horizon = None, incl_t0 = False, full_path = False):
+
+        if type(term) is int and type(age) is not int:
+            term = np.repeat(term, len(age))
+        else:
+            term = np.asarray(term, dtype=int)
+        age = np.asarray(age, dtype=int)
 
         if full_path:
-            idx_end = idx.reshape(1, -1) + np.arange(n).reshape(-1, 1) + 1
+            term += 1
+        surv = self._filter_table(self.survival_table, self._resolve_idx(age), term, num_rows=proj_horizon, fill_val=0.0, full_path=full_path)
+        return surv[1:] if not incl_t0 and full_path else surv
+
+    def nqx(self, age, term=1, *, proj_horizon = None, full_path = False):
+
+        if type(term) is int and type(age) is not int:
+            term = np.repeat(term, len(age))
         else:
-            idx_end = idx + n
+            term = np.asarray(term, dtype=int)
+        age = np.asarray(age, dtype=int)
 
-        idx_end = idx_end.clip(0, self.max_age - self.min_age)
+        if not full_path:
+            term -= 1
+        return self._filter_table(self.death_table, self._resolve_idx(age), term, num_rows=proj_horizon, fill_val=1.0, full_path=full_path)
 
-        return self.lx[idx_end] / self.lx[idx]
-
-
-    def nqx(self, age: IntArrayLike, n: int = 1, full_path: bool = False) -> ArrayLike:
-        age = np.asarray(age.copy(), dtype=int)
-        match n:
-            case 0:
-                return np.zeros(age.size)
-            case 1:
-                return self.qx[self._resolve_idx(age)]
-            case _:
-                npx = self.npx(age, n-1, full_path)
-                idx = self._resolve_idx(age)
-
-                if full_path:
-                    npx = np.concatenate([np.ones([1, age.size]), npx])
-                    idx = (idx.reshape(1, -1) + np.arange(n).reshape(-1, 1) + 1).clip(0, self.max_age - self.min_age)
-                else:
-                    idx += n
-
-                qx = self.qx[idx]
-
-                return npx * qx
+    def _filter_table(self, array, col_filter, row_filter, *, num_rows = None, fill_val = np.nan, full_path = True):
+        col_filter = np.asarray(col_filter, dtype=int)
+        row_filter = np.asarray(row_filter, dtype=int)
+        array = array.copy()
+        if full_path:
+            if num_rows is None:
+                num_rows = row_filter.max()
+            mask = (np.arange(num_rows)[:, None] >= row_filter)
+            array = array[:num_rows, col_filter].reshape(mask.shape)
+            array[mask] = fill_val
+            return array
+        else:
+            return array[row_filter, col_filter]
 
 
     def _resolve_idx(self, age: IntArrayLike) -> IntArrayLike:
