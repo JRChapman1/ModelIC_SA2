@@ -9,7 +9,7 @@ from modelic.products.annuity import Annuity
 from _data import data_path
 
 
-class TestSurvivalBenefit(unittest.TestCase):
+class TestProductAnnuity(unittest.TestCase):
 
     mort_raw = pd.read_csv(data_path("mortality", "AM92.csv"))
     ages = mort_raw['x'].to_numpy(int)

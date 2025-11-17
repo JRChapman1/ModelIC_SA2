@@ -1,0 +1,41 @@
+Product,Type,Description,Basis,Amount
+Term Assurance,INITIAL,Acquisition,PCT_PREMIUM,0.35
+Whole-of-Life Assurance,INITIAL,Acquisition,PCT_PREMIUM,0.4
+Endowment,INITIAL,Acquisition,PCT_PREMIUM,0.45
+Pure Endowment,INITIAL,Acquisition,PCT_PREMIUM,0.3
+Annuity,INITIAL,Acquisition,PER_POLICY,120
+Term Assurance,INITIAL,Admin,PER_POLICY,25
+Whole-of-Life Assurance,INITIAL,Admin,PER_POLICY,30
+Endowment,INITIAL,Admin,PER_POLICY,35
+Pure Endowment,INITIAL,Admin,PER_POLICY,20
+Annuity,INITIAL,Admin,PER_POLICY,50
+Term Assurance,INITIAL,Development,PER_POLICY,10
+Whole-of-Life Assurance,INITIAL,Development,PER_POLICY,15
+Endowment,INITIAL,Development,PER_POLICY,20
+Pure Endowment,INITIAL,Development,PER_POLICY,10
+Annuity,INITIAL,Development,PER_POLICY,20
+Term Assurance,RENEWAL,Admin,PER_POLICY,10
+Whole-of-Life Assurance,RENEWAL,Admin,PER_POLICY,15
+Endowment,RENEWAL,Admin,PER_POLICY,20
+Pure Endowment,RENEWAL,Admin,PER_POLICY,8
+Annuity,RENEWAL,Admin,PER_POLICY,35
+Term Assurance,RENEWAL,Commission,PCT_PREMIUM,0.05
+Whole-of-Life Assurance,RENEWAL,Commission,PCT_PREMIUM,0.05
+Endowment,RENEWAL,Commission,PCT_PREMIUM,0.02
+Pure Endowment,RENEWAL,Commission,PCT_PREMIUM,0.01
+Annuity,RENEWAL,Commission,PCT_PREMIUM,0
+Term Assurance,RENEWAL,Overheads,PER_POLICY,15
+Whole-of-Life Assurance,RENEWAL,Overheads,PER_POLICY,20
+Endowment,RENEWAL,Overheads,PER_POLICY,25
+Pure Endowment,RENEWAL,Overheads,PER_POLICY,10
+Annuity,RENEWAL,Overheads,PER_POLICY,40
+Term Assurance,CLAIM,Death Claim Expense,PER_POLICY,80
+Whole-of-Life Assurance,CLAIM,Death Claim Expense,PER_POLICY,100
+Endowment,CLAIM,Death Claim Expense,PER_POLICY,90
+Pure Endowment,CLAIM,Death Claim Expense,PER_POLICY,0
+Annuity,CLAIM,Death Claim Expense,PER_POLICY,50
+Term Assurance,TERMINAL,Maturity Expense,PER_POLICY,0
+Whole-of-Life Assurance,TERMINAL,Maturity Expense,PER_POLICY,0
+Endowment,TERMINAL,Maturity Expense,PER_POLICY,15
+Pure Endowment,TERMINAL,Maturity Expense,PER_POLICY,15
+Annuity,TERMINAL,Maturity Expense,PER_POLICY,0

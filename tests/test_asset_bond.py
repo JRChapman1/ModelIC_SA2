@@ -7,7 +7,7 @@ from modelic.assets.bonds import BondLike
 from _data import data_path
 
 
-class TestMortalityTable(unittest.TestCase):
+class TestAssetBond(unittest.TestCase):
 
     disc_raw = pd.read_csv(data_path("curves", "boe_spot_annual.csv"))
     times = disc_raw['year'].to_numpy(int)

@@ -9,7 +9,7 @@ from modelic.products.pure_endowment import PureEndowment
 from _data import data_path
 
 
-class TestPureEndowment(unittest.TestCase):
+class TestProductPureEndowment(unittest.TestCase):
 
     mort_raw = pd.read_csv(data_path("mortality", "AM92.csv"))
     ages = mort_raw['x'].to_numpy(int)
