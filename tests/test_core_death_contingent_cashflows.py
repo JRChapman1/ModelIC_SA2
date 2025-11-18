@@ -5,7 +5,7 @@ import pandas as pd
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
 from modelic.core.policy_portfolio import PolicyPortfolio
-from modelic.core.benefits.death_benefit import _DeathBenefit
+from modelic.core.contingent_cashflows.death_contingent_cashflow import _DeathContingentCashflow
 from _data import data_path
 
 
@@ -21,11 +21,8 @@ class TestDeathBenefit(unittest.TestCase):
     zeros = disc_raw['rate'].to_numpy(float)
     discount_curve = YieldCurve(times, zeros, 'BoE')
 
-    wol_policies = PolicyPortfolio.from_csv(data_path("policy_data", "wol_test_data.csv"))
-    term_policies = PolicyPortfolio.from_csv(data_path("policy_data", "ta_test_data.csv"))
-
-    term_death_benefit = _DeathBenefit(term_policies, discount_curve, mortality)
-    wol_death_benefit = _DeathBenefit(wol_policies, discount_curve, mortality)
+    term_death_benefit = _DeathContingentCashflow(discount_curve, mortality, [34, 47, 73], [3, 3, 3], [5, 10, 15])
+    wol_death_benefit = _DeathContingentCashflow(discount_curve, mortality, [34, 47, 73], [np.nan, np.nan, np.nan], [5, 10, 15])
 
     def test_project_cashflows_term_3(self):
 
