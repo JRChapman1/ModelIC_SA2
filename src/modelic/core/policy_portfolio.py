@@ -9,9 +9,10 @@ from modelic.core.udf_globals import policy_data_csv_columns
 class PolicyPortfolio:
     ages: IntArrayLike
     terms: IntArrayLike
-    death_contingent_benefits: ArrayLike
-    terminal_survival_contingent_benefits: ArrayLike
-    periodic_survival_contingent_benefits: ArrayLike
+    death_contingent_benefits: ArrayLike = None
+    terminal_survival_contingent_benefits: ArrayLike = None
+    periodic_survival_contingent_benefits: ArrayLike = None
+    annual_premium: ArrayLike = None
 
 
     @classmethod
@@ -19,3 +20,11 @@ class PolicyPortfolio:
         csv_data = pd.read_csv(path)
         columns_given = csv_data.columns
         return cls(*[csv_data[col].values if np.isin(col, columns_given) else None for col in policy_data_csv_columns])
+
+    @property
+    def count(self):
+        return len(self.ages)
+
+    @property
+    def data(self):
+        return pd.DataFrame({k: v for k, v in self.__dict__.items() if v is not None}).fillna('')

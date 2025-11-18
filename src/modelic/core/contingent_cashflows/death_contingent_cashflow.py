@@ -13,7 +13,7 @@ class _DeathContingentCashflow(BaseCashflowModel):
     def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, ph_age: IntArrayLike, term: IntArrayLike,
                  death_contingent_cf: ArrayLike = 1):
 
-        term = np.asarray(term)
+        term = np.asarray(term).copy()
 
         policy_terms = term
         policy_terms[np.isnan(term)] = mortality_table.max_age - mortality_table.min_age

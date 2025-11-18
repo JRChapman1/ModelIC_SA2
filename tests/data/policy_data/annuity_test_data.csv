@@ -1,4 +1,4 @@
-﻿age,term,periodic_survival_contingent_benefit
-34,,5
-47,,10
-73,,15
+,ages,terms,periodic_survival_contingent_benefits,annual_premium
+0,34,103.0,5,190.17414168661145
+1,47,103.0,10,289.8618544068904
+2,73,103.0,15,167.70577045006442

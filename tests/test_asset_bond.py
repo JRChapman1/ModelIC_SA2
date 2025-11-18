@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 from modelic.core.curves import YieldCurve
-from modelic.assets.bonds import BondLike
+from modelic.assets.bond import BondLike
 from _data import data_path
 
 
