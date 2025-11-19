@@ -13,6 +13,7 @@ class PolicyPortfolio:
     terminal_survival_contingent_benefits: ArrayLike = None
     periodic_survival_contingent_benefits: ArrayLike = None
     annual_premium: ArrayLike = None
+    policy_type: str = None
 
 
     @classmethod
