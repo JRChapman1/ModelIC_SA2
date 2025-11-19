@@ -19,8 +19,14 @@ class PolicyPortfolio:
     @classmethod
     def from_csv(cls, path: str):
         csv_data = pd.read_csv(path)
-        columns_given = csv_data.columns
-        return cls(*[csv_data[col].values if np.isin(col, columns_given) else None for col in policy_data_csv_columns])
+        return cls.from_df(csv_data)
+
+
+    @classmethod
+    def from_df(cls, df: pd.DataFrame):
+        columns_given = df.columns
+        return cls(*[df[col].values if np.isin(col, columns_given) else None for col in policy_data_csv_columns])
+
 
     @property
     def count(self):
@@ -29,3 +35,6 @@ class PolicyPortfolio:
     @property
     def data(self):
         return pd.DataFrame({k: v for k, v in self.__dict__.items() if v is not None}).fillna('')
+
+    def filter_on_product(self, product_type):
+        return self.from_df(self.data[self.data['policy_type'] == product_type])
