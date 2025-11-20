@@ -15,6 +15,7 @@ class _SurvivalContingentCashflow(BaseCashflowModel):
 
         policy_terms = np.asarray(term)
         policy_terms[np.isnan(policy_terms)] = mortality_table.max_age - mortality_table.min_age
+        policy_terms = policy_terms.astype(int)
 
         super().__init__(np.arange(1, policy_terms.max() + 1), yield_curve)
 

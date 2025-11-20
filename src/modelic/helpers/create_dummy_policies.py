@@ -11,14 +11,15 @@ from modelic.products.annuity import Annuity
 from modelic.products.life_assurance import LifeAssurance
 from modelic.products.pure_endowment import PureEndowment
 from modelic.core.custom_types import IntArrayLike, ArrayLike
+from modelic.core.udf_globals import policy_data_csv_columns
 
 
-mort_raw = pd.read_csv(r"/Users/joshchapman/PycharmProjects/ModelIC/tests/data/mortality/AM92.csv")
+mort_raw = pd.read_csv(r"../../../tests/data/mortality/AM92.csv")
 ages = mort_raw['x'].to_numpy(int)
 qx = mort_raw['q_x'].to_numpy(float)
 mortality = MortalityTable(ages, qx, 'AM92')
 
-disc_raw = pd.read_csv(r"/Users/joshchapman/PycharmProjects/ModelIC/tests/data/curves/boe_spot_annual.csv")
+disc_raw = pd.read_csv(r"../../../tests/data/curves/boe_spot_annual.csv")
 times = disc_raw['year'].to_numpy(int)
 zeros = disc_raw['rate'].to_numpy(float)
 discount_curve = YieldCurve(times, zeros, 'BoE')
@@ -90,23 +91,21 @@ def _goalseek_regular_premium(target: ArrayLike, ph_age: IntArrayLike, term: Int
 
 if __name__ == '__main__':
 
-    term_pols = create_dummy_assurance_policies(np.array([34, 47, 73]), np.array([3, 3, 3]), [5, 10, 15], 0.1)
-    term_pols.data.to_csv(r'/Users/joshchapman/PycharmProjects/ModelIC/tests/data/policy_data/ta_test_data.csv')
+    pols = {
+        'Term Assurance': create_dummy_assurance_policies(np.array([34, 47, 73]), np.array([21, 13, 2]), [150_000, 70_000, 10_000], 0.1),
+        'Whole-of-Life Assurance': create_dummy_assurance_policies(np.array([43, 55, 69]), np.array([np.nan, np.nan, np.nan]), [50_000, 10_000, 15_000], 0.1),
+        'Pure Endowment': create_dummy_pure_endowment_policies(np.array([40, 53, 76]), np.array([15, 7, 4]), [210_000, 170_000, 20_000], 0.1),
+        'Endowment': create_dummy_endowment_policies(np.array([41, 45, 53]), np.array([9, 10, 5]), [12_000, 125_000, 52_000], [12_000, 125_000, 52_000], 0.1),
+        'Annuity': create_dummy_annuity_policies(np.array([58, 68, 78]), np.array([np.nan, np.nan, np.nan]), [50_000, 10_000, 15_000], 0.1)
+    }
 
-    wol_pols = create_dummy_assurance_policies(np.array([34, 47, 73]), np.array([np.nan, np.nan, np.nan]), [5, 10, 15], 0.1)
-    wol_pols.data.to_csv(r'/Users/joshchapman/PycharmProjects/ModelIC/tests/data/policy_data/wol_test_data.csv')
+    pol_data_out = pd.DataFrame(columns=policy_data_csv_columns)
 
-    pure_endow_pols = create_dummy_pure_endowment_policies(np.array([34, 47, 73]), np.array([7, 3, 5]), [5, 10, 15], 0.1)
-    pure_endow_pols.data.to_csv(r'/Users/joshchapman/PycharmProjects/ModelIC/tests/data/policy_data/pure_endowment_test_data.csv')
+    for k, v in pols.items():
+        data = v.data
+        data['policy_type'] = k
+        pol_data_out = pd.concat([pol_data_out, data], axis=0, sort=False)
 
-    pure_endow_pols = create_dummy_endowment_policies(np.array([34, 47, 73]), np.array([7, 3, 5]), [5, 10, 15], [1, 2, 3], 0.1)
-    pure_endow_pols.data.to_csv(r'/Users/joshchapman/PycharmProjects/ModelIC/tests/data/policy_data/endowment_test_data.csv')
+    pol_data_out = pol_data_out.fillna('')
 
-    ann_pols = create_dummy_annuity_policies(np.array([34, 47, 73]), np.array([np.nan, np.nan, np.nan]), [5, 10, 15], 0.1)
-    ann_pols.data.to_csv(r'/Users/joshchapman/PycharmProjects/ModelIC/tests/data/policy_data/annuity_test_data.csv')
-
-    ann_pols_term3 = create_dummy_annuity_policies(np.array([34, 47, 73]), np.array([3, 3, 3]), [5, 10, 15], 0.1)
-    ann_pols_term3.data.to_csv(r'/Users/joshchapman/PycharmProjects/ModelIC/tests/data/policy_data/annuity_test_data_term3.csv')
-
-    ann_pols_various_term = create_dummy_annuity_policies(np.array([34, 47, 73]), np.array([3, 10, 5]), [5, 10, 15], 0.1)
-    ann_pols_various_term.data.to_csv(r'/Users/joshchapman/PycharmProjects/ModelIC/tests/data/policy_data/annuity_test_data_various_terms.csv')
+    pol_data_out.to_csv(r'C:\Users\BIB389\PycharmProjects\ModelIC_SA2\tests\data\policy_data\mixed_policies.csv')
