@@ -34,6 +34,6 @@ Whole-of-Life Assurance,DEATH,Death Claim Expense,PER_POLICY,100
 Endowment,DEATH,Death Claim Expense,PER_POLICY,90
 Pure Endowment,DEATH,Death Claim Expense,PER_POLICY,0
 Annuity,DEATH,Death Claim Expense,PER_POLICY,50
-Endowment,MATURITY,Maturity Expense,PER_POLICY,15
-Pure Endowment,MATURITY,Maturity Expense,PER_POLICY,15
-Annuity,MATURITY,Maturity Expense,PER_POLICY,0
+Endowment,SURVIVAL,Maturity Expense,PER_POLICY,15
+Pure Endowment,SURVIVAL,Maturity Expense,PER_POLICY,15
+Annuity,DEATH,Maturity Expense,PER_POLICY,0

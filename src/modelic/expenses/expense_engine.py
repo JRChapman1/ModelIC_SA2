@@ -80,13 +80,13 @@ class ExpenseEngine(BaseCashflowModel):
 
     def project_cashflows(self, aggregate=True):
 
-        results = pd.DataFrame()
-        for _, expense_component in self.expense_spec.loc[self.expense_spec['Product'] == 'Term Assurance'].iterrows():
+        results = pd.DataFrame(columns=pd.MultiIndex.from_tuples([], names=['Product', 'Description']))
+        for _, expense_component in self.expense_spec.loc[self.expense_spec['Product'].isin(np.unique(self.policy_data.policy_type))].iterrows():
             cfs = self._project_expense_cashflow_single(expense_component['Basis'], expense_component['Type'], expense_component['Amount'])
             cfs = np.atleast_1d(cfs)
             if cfs.sum():
                 results = results.reindex(range(np.atleast_1d(cfs).size), fill_value=0.0)
-                results[expense_component['Description']] = cfs
+                results[(expense_component['Product'], expense_component['Description'])] = cfs
         return results
 
 

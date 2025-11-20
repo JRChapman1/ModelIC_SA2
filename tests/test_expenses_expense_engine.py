@@ -28,4 +28,7 @@ class TestExpenseEngine(unittest.TestCase):
 
         def test_expense_engine(self):
                 eng = ExpenseEngine(self.expense_spec, self.discount_curve, self.mortality, self.policies_in, self.expense_inflation_rate)
-                print(eng.present_value(aggregate=False))
+                foo = eng.project_cashflows(aggregate=False)
+                pv = eng.present_value(aggregate=False)
+                pv_agg = eng.present_value(aggregate=True)
+                print(0)

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import numpy as np
+import pandas as pd
 
 from modelic.core.compounding import zero_to_df
 from modelic.core.custom_types import ArrayLike, IntArrayLike
@@ -26,7 +27,10 @@ class BaseCashflowModel(ABC):
         df = self.discount_factors(spread)
         pv = (df * cf).sum(axis=0)
 
-        return float(pv.sum()) if aggregate else pv
+        if type(pv) is pd.Series:
+            return float(pv.sum()) if aggregate else pv.unstack(fill_value=0)
+        else:
+            return float(pv.sum()) if aggregate else pv
 
 
 class CompositeProduct(BaseCashflowModel):
