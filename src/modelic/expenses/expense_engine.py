@@ -78,39 +78,16 @@ class ExpenseEngine(BaseCashflowModel):
         return results
 
 
-    def project_cashflows(self):
+    def project_cashflows(self, aggregate=True):
 
         results = pd.DataFrame()
-        for _, expense_component in expense_spec.loc[expense_spec['Product'] == 'Term Assurance'].iterrows():
+        for _, expense_component in self.expense_spec.loc[self.expense_spec['Product'] == 'Term Assurance'].iterrows():
             cfs = self._project_expense_cashflow_single(expense_component['Basis'], expense_component['Type'], expense_component['Amount'])
             cfs = np.atleast_1d(cfs)
-            if np.atleast_1d(cfs).sum():
+            if cfs.sum():
                 results = results.reindex(range(np.atleast_1d(cfs).size), fill_value=0.0)
                 results[expense_component['Description']] = cfs
         return results
 
 
 
-if __name__ == '__main__':
-
-    expense_spec = pd.read_csv('../../../Parameters/expense_spec.csv')
-    policies_in = PolicyPortfolio.from_csv('../../../tests/data/policy_data/ta_and_endowment_test_data.csv')
-
-    mort_raw = pd.read_csv(r'../../../tests/data/mortality/AM92.csv')
-    ages = mort_raw['x'].to_numpy(int)
-    qx = mort_raw['q_x'].to_numpy(float)
-    mortality = MortalityTable(ages, qx, 'AM92')
-
-    disc_raw = pd.read_csv('../../../tests/data/curves/boe_spot_annual.csv')
-    times = disc_raw['year'].to_numpy(int)
-    zeros = disc_raw['rate'].to_numpy(float)
-    discount_curve = YieldCurve(times, zeros, 'BoE')
-
-    for pol_type in np.unique(policies_in.policy_type):
-        filtered_pols = policies_in.filter_on_product(pol_type)
-
-        eng = ExpenseEngine(expense_spec, discount_curve, mortality, filtered_pols, 0.03)
-        print(eng.project_cashflows())
-
-    eng = ExpenseEngine(expense_spec, discount_curve, mortality, policies_in, 0.03)
-    print(eng.project_cashflows())
