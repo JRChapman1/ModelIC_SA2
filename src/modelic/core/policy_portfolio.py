@@ -36,5 +36,7 @@ class PolicyPortfolio:
     def data(self):
         return pd.DataFrame({k: v for k, v in self.__dict__.items() if v is not None}).fillna('')
 
-    def filter_on_product(self, product_type):
-        return self.from_df(self.data[self.data['policy_type'] == product_type])
+    def get(self, attr: str, product_type: str):
+        if attr == 'count':
+            return int(sum(self.policy_type == product_type))
+        return getattr(self, attr)[self.policy_type == product_type]

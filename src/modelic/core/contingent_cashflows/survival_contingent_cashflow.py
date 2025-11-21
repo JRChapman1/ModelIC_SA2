@@ -46,6 +46,7 @@ class _SurvivalContingentCashflow(BaseCashflowModel):
         if self.periodic_amount is not None:
             survival_path = self.mortality.npx(self.age, self.term, full_path=True)
             cfs += self.periodic_amount * survival_path
+
         if self.terminal_amount is not None:
             survival_to_year = self.mortality.npx(self.age, self.term, full_path=False)
             cfs[self.term - 1, np.arange(self.age.size)] += self.terminal_amount * survival_to_year
