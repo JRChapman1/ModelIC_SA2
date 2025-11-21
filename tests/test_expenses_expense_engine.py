@@ -11,7 +11,7 @@ from _data import data_path
 
 class TestExpenseEngine(unittest.TestCase):
 
-    expense_spec = pd.read_csv('../Parameters/expense_spec.csv')
+    expense_spec = pd.read_csv('./Parameters/expense_spec.csv')
     policies_in = PolicyPortfolio.from_csv(data_path('policy_data', 'mixed_policies.csv'))
 
     mort_raw = pd.read_csv(data_path('mortality', 'AM92.csv'))
@@ -26,11 +26,29 @@ class TestExpenseEngine(unittest.TestCase):
 
     expense_inflation_rate = 0.03
 
-    def test_expense_engine(self):
-        eng = ExpenseEngine(self.expense_spec, self.discount_curve, self.mortality, self.policies_in, self.expense_inflation_rate)
-        foo = eng.project_cashflows(aggregate=False)
-        pv = eng.present_value(aggregate=False)
-        pv_agg = eng.present_value(aggregate=True)
-        print(0)
+    eng = ExpenseEngine(expense_spec, discount_curve, mortality, policies_in, expense_inflation_rate)
 
-        
+
+    def test_expense_engine_pv(self):
+
+        expected_values = np.array(
+            [[3.38523829e+02, 7.50000000e+01, 3.00000000e+01, 3.83137742e+02, 5.31583030e+02, 5.74706614e+02, 1.40814485e+01, 0.00000000e+00],
+             [1.11619495e+03, 9.00000000e+01, 4.50000000e+01, 1.54672691e+03, 4.99746960e+03, 2.06230255e+03, 4.98998525e+02, 0.00000000e+00],
+             [1.16685361e+04, 1.05000000e+02, 6.00000000e+01, 4.56106587e+02, 3.79683768e+03, 5.70133234e+02, 6.09408560e+00, 5.15268756e+01],
+             [1.31971729e+04, 6.00000000e+01, 3.00000000e+01, 2.01608929e+02, 3.94156079e+03, 2.52011161e+02, 0.00000000e+00, 4.85249670e+01],
+             [3.60000000e+02, 1.50000000e+02, 6.00000000e+01, 1.94434553e+03, 0.00000000e+00, 2.22210918e+03, 2.02109394e+02, 0.00000000e+00]])
+
+        actual = self.eng.present_value(aggregate=False)
+        pv_agg = self.eng.present_value(aggregate=True)
+        51687.40256545101
+        assert actual.shape == expected_values.shape
+        assert np.allclose(actual.values, expected_values)
+
+
+    def test_expense_engine_pv_aggregated(self):
+
+        expected = 51687.40256545101
+        actual = self.eng.present_value(aggregate=True)
+
+        assert actual == expected
+

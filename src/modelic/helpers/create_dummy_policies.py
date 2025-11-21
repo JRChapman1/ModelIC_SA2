@@ -108,4 +108,4 @@ if __name__ == '__main__':
 
     pol_data_out = pol_data_out.fillna('')
 
-    pol_data_out.to_csv(r'C:\Users\BIB389\PycharmProjects\ModelIC_SA2\tests\data\policy_data\mixed_policies.csv')
+    pol_data_out.to_csv(r'/Users/joshchapman/PycharmProjects/ModelIC/tests/data/policy_data/mixed_policies.csv')
