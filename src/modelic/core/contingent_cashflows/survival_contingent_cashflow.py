@@ -1,3 +1,5 @@
+# modelic/core/contingent_cashflows/survival_contingent_cashflows.py
+
 import numpy as np
 
 from modelic.core.cashflows import BaseCashflowModel
@@ -52,4 +54,4 @@ class _SurvivalContingentCashflow(BaseCashflowModel):
             survival_to_year = self.mortality.npx(self.age, self.term, full_path=False)
             cfs[self.term - self.times.min(), np.arange(self.age.size)] += self.terminal_amount * survival_to_year
 
-        return cfs.sum(axis=1).reshape(-1, 1) if aggregate else cfs
+        return cfs.sum(axis=1) if aggregate else cfs

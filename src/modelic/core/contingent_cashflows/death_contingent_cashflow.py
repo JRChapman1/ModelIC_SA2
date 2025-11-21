@@ -1,3 +1,5 @@
+# modelic/core/contingent_cashflows/death_contingent_cashflows.py
+
 import numpy as np
 
 from modelic.core.cashflows import BaseCashflowModel
@@ -41,4 +43,4 @@ class _DeathContingentCashflow(BaseCashflowModel):
         death_in_year = self.mortality.nqx(self.age, self.term, full_path=True)
         cfs[(self.times >= 1) & (self.times <= self.term.max())] = self.amount * death_in_year
 
-        return cfs.sum(axis=1).reshape(-1, 1) if aggregate else cfs
+        return cfs.sum(axis=1) if aggregate else cfs

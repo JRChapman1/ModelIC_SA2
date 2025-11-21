@@ -1,5 +1,4 @@
-from enum import Enum, auto
-from unittest import case
+# modelic/expenses/expense_engine.py
 
 import numpy as np
 import pandas as pd
@@ -64,8 +63,8 @@ class ExpenseEngine(BaseCashflowModel):
         terms = self.policy_data.get('terms', product_type)
         match expense_type:
             case ExpenseTiming.INITIAL:
-                results = np.zeros((self.num_cfs, 1))
-                results[0, 0] = t0_amount.sum()
+                results = np.zeros(self.num_cfs)
+                results[0] = t0_amount.sum()
             case ExpenseTiming.RENEWAL:
                 surv_obj = _SurvivalContingentCashflow(self.yield_curve, self.mortality_table, ages, terms-1, periodic_cf=t0_amount, projection_steps=self.times)
                 results = surv_obj.project_cashflows(aggregate=True)
@@ -78,7 +77,8 @@ class ExpenseEngine(BaseCashflowModel):
             case _:
                 raise ValueError('Unrecognized expense basis', expense_type)
 
-        results *= (1 + annual_inflation_rate) ** self.times.reshape(results.shape)
+        results *= (1 + annual_inflation_rate) ** self.times
+
         return results
 
 
@@ -89,8 +89,8 @@ class ExpenseEngine(BaseCashflowModel):
             cfs = self._project_expense_cashflow_single(expense_component['Basis'], expense_component['Type'], expense_component['Amount'], expense_component['Product'], self.expense_inflation_rate)
             if cfs.sum() > 0:
                 results = results.reindex(range(np.atleast_1d(cfs).size), fill_value=0.0)
-                results[(expense_component['Product'], expense_component['Type'] + expense_component['Description'])] = cfs
-        return results
+                results[(expense_component['Product'],  f"{expense_component['Description']} ({expense_component['Type']})")] = cfs
+        return results.sum(axis=1).values if aggregate else results
 
 
 
