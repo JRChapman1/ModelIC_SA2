@@ -11,7 +11,11 @@ from _data import data_path
 
 class TestExpenseEngine(unittest.TestCase):
 
-    expense_spec = pd.read_csv('./Parameters/expense_spec.csv')
+    try:
+        expense_spec = pd.read_csv('./../Parameters/expense_spec.csv')
+    except FileNotFoundError:
+        expense_spec = pd.read_csv('./Parameters/expense_spec.csv')
+
     policies_in = PolicyPortfolio.from_csv(data_path('policy_data', 'mixed_policies.csv'))
 
     mort_raw = pd.read_csv(data_path('mortality', 'AM92.csv'))
@@ -39,8 +43,7 @@ class TestExpenseEngine(unittest.TestCase):
              [3.60000000e+02, 1.50000000e+02, 6.00000000e+01, 1.94434553e+03, 0.00000000e+00, 2.22210918e+03, 2.02109394e+02, 0.00000000e+00]])
 
         actual = self.eng.present_value(aggregate=False)
-        pv_agg = self.eng.present_value(aggregate=True)
-        51687.40256545101
+
         assert actual.shape == expected_values.shape
         assert np.allclose(actual.values, expected_values)
 

@@ -58,30 +58,26 @@ class ExpenseEngine(BaseCashflowModel):
         t0_amount = self._get_t0_expense_amount(basis, amount, product_type)
 
         if np.atleast_1d(t0_amount).sum() == 0:
-            return 0
+            return np.zeros((self.num_cfs, 1))
 
         ages = self.policy_data.get('ages', product_type)
         terms = self.policy_data.get('terms', product_type)
         match expense_type:
             case ExpenseTiming.INITIAL:
-                return t0_amount.sum()
+                results = np.zeros((self.num_cfs, 1))
+                results[0, 0] = t0_amount.sum()
             case ExpenseTiming.RENEWAL:
-                surv_obj = _SurvivalContingentCashflow(self.yield_curve, self.mortality_table, ages, terms-1, periodic_cf=t0_amount)
+                surv_obj = _SurvivalContingentCashflow(self.yield_curve, self.mortality_table, ages, terms-1, periodic_cf=t0_amount, projection_steps=self.times)
                 results = surv_obj.project_cashflows(aggregate=True)
-                results = np.vstack((0, results))
             case ExpenseTiming.SURVIVAL:
-                surv_obj = _SurvivalContingentCashflow(self.yield_curve, self.mortality_table, ages, terms, terminal_cf=t0_amount)
+                surv_obj = _SurvivalContingentCashflow(self.yield_curve, self.mortality_table, ages, terms, terminal_cf=t0_amount, projection_steps=self.times)
                 results = surv_obj.project_cashflows(aggregate=True)
-                results = np.vstack((0, results))
             case ExpenseTiming.DEATH:
-                dth_obj = _DeathContingentCashflow(self.yield_curve, self.mortality_table, ages, terms, t0_amount)
+                dth_obj = _DeathContingentCashflow(self.yield_curve, self.mortality_table, ages, terms, t0_amount, projection_steps=self.times)
                 results = dth_obj.project_cashflows(aggregate=True)
-                results = np.vstack((0, results))
             case _:
                 raise ValueError('Unrecognized expense basis', expense_type)
-        pad_shape = list(results.shape)
-        pad_shape[0] = self.num_cfs - pad_shape[0]
-        results = np.vstack((results, np.zeros(pad_shape)))
+
         results *= (1 + annual_inflation_rate) ** self.times.reshape(results.shape)
         return results
 
@@ -91,8 +87,7 @@ class ExpenseEngine(BaseCashflowModel):
         results = pd.DataFrame(columns=pd.MultiIndex.from_tuples([], names=['Product', 'Description']))
         for _, expense_component in self.expense_spec.loc[self.expense_spec['Product'].isin(np.unique(self.policy_data.policy_type))].iterrows():
             cfs = self._project_expense_cashflow_single(expense_component['Basis'], expense_component['Type'], expense_component['Amount'], expense_component['Product'], self.expense_inflation_rate)
-            cfs = np.atleast_1d(cfs)
-            if cfs.sum():
+            if cfs.sum() > 0:
                 results = results.reindex(range(np.atleast_1d(cfs).size), fill_value=0.0)
                 results[(expense_component['Product'], expense_component['Type'] + expense_component['Description'])] = cfs
         return results
