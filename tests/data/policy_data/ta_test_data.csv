@@ -1,4 +1,4 @@
-﻿age,term,death_contingent_benefit
-34,3,5
-47,3,10
-73,3,15
+,ages,terms,death_contingent_benefits,annual_premium,policy_type
+0,34,3,5,0.003801973,Term Assurance
+1,47,3,10,0.022213956,Term Assurance
+2,73,3,15,0.650215656,Term Assurance

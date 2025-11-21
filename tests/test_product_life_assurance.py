@@ -40,7 +40,7 @@ class TestProductLifeAssurance(unittest.TestCase):
 
     def test_project_cashflows_aggregated_term_3(self):
 
-        expected = np.array([[0.53348], [0.572735044], [0.612001835]])
+        expected = np.array([0.53348, 0.572735044, 0.612001835])
 
         actual = self.term_death_benefit.project_cashflows()
 

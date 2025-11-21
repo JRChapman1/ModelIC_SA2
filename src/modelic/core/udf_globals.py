@@ -1,2 +1,2 @@
-policy_data_csv_columns = ['age', 'term', 'death_contingent_benefit', 'terminal_survival_contingent_benefit',
-                           'periodic_survival_contingent_benefit']
+policy_data_csv_columns = ['ages', 'terms', 'death_contingent_benefits', 'terminal_survival_contingent_benefits',
+                           'periodic_survival_contingent_benefits', 'annual_premium', 'policy_type']

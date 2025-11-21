@@ -29,13 +29,11 @@ Whole-of-Life Assurance,RENEWAL,Overheads,PER_POLICY,20
 Endowment,RENEWAL,Overheads,PER_POLICY,25
 Pure Endowment,RENEWAL,Overheads,PER_POLICY,10
 Annuity,RENEWAL,Overheads,PER_POLICY,40
-Term Assurance,CLAIM,Death Claim Expense,PER_POLICY,80
-Whole-of-Life Assurance,CLAIM,Death Claim Expense,PER_POLICY,100
-Endowment,CLAIM,Death Claim Expense,PER_POLICY,90
-Pure Endowment,CLAIM,Death Claim Expense,PER_POLICY,0
-Annuity,CLAIM,Death Claim Expense,PER_POLICY,50
-Term Assurance,TERMINAL,Maturity Expense,PER_POLICY,0
-Whole-of-Life Assurance,TERMINAL,Maturity Expense,PER_POLICY,0
-Endowment,TERMINAL,Maturity Expense,PER_POLICY,15
-Pure Endowment,TERMINAL,Maturity Expense,PER_POLICY,15
-Annuity,TERMINAL,Maturity Expense,PER_POLICY,0
+Term Assurance,DEATH,Death Claim Expense,PER_POLICY,80
+Whole-of-Life Assurance,DEATH,Death Claim Expense,PER_POLICY,100
+Endowment,DEATH,Death Claim Expense,PER_POLICY,90
+Pure Endowment,DEATH,Death Claim Expense,PER_POLICY,0
+Annuity,DEATH,Death Claim Expense,PER_POLICY,50
+Endowment,SURVIVAL,Maturity Expense,PER_POLICY,15
+Pure Endowment,SURVIVAL,Maturity Expense,PER_POLICY,15
+Annuity,DEATH,Maturity Expense,PER_POLICY,0

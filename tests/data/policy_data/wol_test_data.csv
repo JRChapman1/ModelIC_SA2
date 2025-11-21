@@ -1,4 +1,4 @@
-﻿age,term,death_contingent_benefit
-34,,5
-47,,10
-73,,15
+,ages,terms,death_contingent_benefits,annual_premium
+0,34,,5,0.099427093245853
+1,47,,10,0.2905964856015298
+2,73,,15,1.4129601795458626

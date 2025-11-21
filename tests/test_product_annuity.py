@@ -43,7 +43,7 @@ class TestProductAnnuity(unittest.TestCase):
 
     def test_project_cashflows_aggregated_term_3(self):
 
-        expected = np.array([[29.46652], [28.89378496], [28.28178312]])
+        expected = np.array([29.46652, 28.89378496, 28.28178312])
 
         actual = self.annuity_t3.project_cashflows(aggregate=True)
 

@@ -44,13 +44,8 @@ class TestProductEndowment(unittest.TestCase):
 
     def test_project_cashflows_aggregated(self):
 
-        expected = np.array([[0.533479999999999],
-[0.572735044380001],
-[2.59992413240394],
-[0.62575119435182],
-[3.07506008709236],
-[0.00433414129495432],
-[0.999218579541711]])
+        expected = np.array([0.533479999999999, 0.572735044380001, 2.59992413240394, 0.62575119435182, 3.07506008709236,
+                             0.00433414129495432, 0.999218579541711])
 
         actual = self.endowments.project_cashflows(aggregate=True)
 
