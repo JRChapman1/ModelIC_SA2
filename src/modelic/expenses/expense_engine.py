@@ -40,7 +40,7 @@ class ExpenseEngine:
             case ExpenseBasis.PER_POLICY:
                 t0_amount = np.repeat(amount, policy_count)
             case ExpenseBasis.PCT_PREMIUM:
-                t0_amount = amount * annual_premium
+                t0_amount = np.atleast_1d(amount * annual_premium)
             case _:
                 raise ValueError('Unrecognized expense basis', basis)
 
@@ -49,11 +49,10 @@ class ExpenseEngine:
 
     def _project_expense_cashflow_single(self, basis, expense_type, amount, ages, terms, premiums, annual_inflation_rate=0):
 
-        policy_count = ages.size
         num_cfs = self.mortality_table.ages.max() - self.mortality_table.ages.min() + 1
         times = np.arange(num_cfs)
 
-        t0_amount = self._get_t0_expense_amount(basis, amount, policy_count, premiums)
+        t0_amount = self._get_t0_expense_amount(basis, amount, 1, premiums)
 
         if np.atleast_1d(t0_amount).sum() == 0:
             return np.zeros((num_cfs, 1))

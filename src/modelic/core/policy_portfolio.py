@@ -17,6 +17,7 @@ class PolicyPortfolio:
     periodic_survival_contingent_benefits: ArrayLike = None
     annual_premium: ArrayLike = None
     policy_type: ArrayLike = None
+    premium_type: ArrayLike = None
 
 
     @classmethod

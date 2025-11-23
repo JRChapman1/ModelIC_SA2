@@ -2,12 +2,16 @@
 
 import numpy as np
 import pandas as pd
+from pandas.errors import InvalidIndexError
 from scipy.optimize import root_scalar
 
 from modelic.core.mortality import MortalityTable
 from modelic.core.curves import YieldCurve
 from modelic.core.policy_portfolio import PolicyPortfolio
 from modelic.products.annuity import Annuity
+from modelic.products.life_assurance import LifeAssurance
+from modelic.products.endowment import Endowment
+from modelic.products.pure_endowment import PureEndowment
 from modelic.expenses.expense_engine import ExpenseEngine
 from modelic.core.contingent_cashflows.survival_contingent_cashflow import _SurvivalContingentCashflow
 
@@ -27,43 +31,60 @@ class PricingEngine:
         self.yield_curves = yield_curves
         self.expense_spec = expense_spec
         self.expense_inflation_rate = expense_inflation_rate
+        self.expense_engine = ExpenseEngine(self.expense_spec, self.yield_curves, self.mortality_table,
+                                            self.expense_inflation_rate)
 
     def price_policies(self, policy_portfolio: PolicyPortfolio):
 
         # TODO: Ensure dict is best struct to accumulate results in
         results = []
 
-        for policy_type in np.unique(policy_portfolio.policy_type):
+        for idx, policy in policy_portfolio.data.iterrows():
 
-            policy_data = policy_portfolio.subset(policy_type)
-
-            match policy_type:
+            match policy['policy_type']:
                 case PolicyType.Annuity:
-
-                    for age, term, annual_amount in zip(policy_data.ages, policy_data.terms, policy_data.periodic_survival_contingent_benefits):
-                        product_engine = Annuity(self.yield_curves, self.mortality_table, age, term, annual_amount)
-                        expense_engine = ExpenseEngine(self.expense_spec, self.yield_curves, self.mortality_table,
-                                                       self.expense_inflation_rate)
-                        prem_ann_fac_obj = _SurvivalContingentCashflow(self.yield_curves, self.mortality_table, age, term,
-                                                               periodic_cf=1.0)
-
-                        pv_bens = product_engine.present_value()
-                        prem_ann_fac = prem_ann_fac_obj.present_value()
-
-                        # TODO: Move this
-                        def objective_function(premium: float):
-                            pv_expenses = expense_engine.present_value_for_product(policy_type, age, term, premium)
-                            return pv_bens + pv_expenses - premium * prem_ann_fac
-
-                        results.append(root_scalar(objective_function, bracket=[0, pv_bens * 2]).root)
+                    product_engine = Annuity(self.yield_curves, self.mortality_table, policy['ages'], policy['terms'],
+                                             policy['periodic_survival_contingent_benefits'])
 
                 case PolicyType.Endowment:
-                    pass
-                case PolicyType.PureEndowment:
-                    pass
-                case PolicyType.TermAssurance:
-                    pass
-                case PolicyType.WholeOfLifeAssurance:
-                    pass
+                    product_engine = Endowment(self.yield_curves, self.mortality_table, policy['ages'], policy['terms'],
+                                               policy['terminal_survival_contingent_benefits'], policy['death_contingent_benefits'])
 
-            return results
+                case PolicyType.PureEndowment:
+                    product_engine = PureEndowment(self.yield_curves, self.mortality_table, policy['ages'],
+                                                   policy['terms'], policy['terminal_survival_contingent_benefits'])
+
+                case PolicyType.TermAssurance:
+                    product_engine = LifeAssurance(self.yield_curves, self.mortality_table, policy['ages'],
+                                                   policy['terms'], policy['death_contingent_benefits'])
+
+                case PolicyType.WholeOfLifeAssurance:
+                    product_engine = LifeAssurance(self.yield_curves, self.mortality_table, policy['ages'],
+                                                   np.nan, policy['death_contingent_benefits'])
+
+            term = np.nan if policy['terms'] == '' else policy['terms']
+            results.append(self._price_single_policy(policy['policy_type'], policy['ages'], term,
+                                                     policy['premium_type'], product_engine.present_value()))
+
+        return results
+
+
+    def _price_single_policy(self, pol_type, ph_age, pol_term, premium_type, pv_bens):
+
+        match premium_type:
+            case 'Single':
+                prem_ann_fac = 1
+            case 'Regular':
+                prem_ann_fac_obj = _SurvivalContingentCashflow(self.yield_curves, self.mortality_table,
+                                                               ph_age, pol_term, periodic_cf=1.0)
+                prem_ann_fac = prem_ann_fac_obj.present_value()
+            case _:
+                raise ValueError(f'premium_type {premium_type} not recognized')
+
+        # TODO: Move this
+        def objective_function(premium: float):
+            pv_expenses = self.expense_engine.present_value_for_product(pol_type, ph_age, pol_term, premium)
+            return pv_bens + pv_expenses - premium * prem_ann_fac
+
+        # TODO: Fix bracket parameter
+        return root_scalar(objective_function, bracket=[0, pv_bens * 2]).root
