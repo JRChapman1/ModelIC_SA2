@@ -31,7 +31,7 @@ class PricingEngine:
     def price_policies(self, policy_portfolio: PolicyPortfolio):
 
         # TODO: Ensure dict is best struct to accumulate results in
-        results = {}
+        results = []
 
         for policy_type in np.unique(policy_portfolio.policy_type):
 
@@ -40,17 +40,22 @@ class PricingEngine:
             match policy_type:
                 case PolicyType.Annuity:
 
-                    for age, n in zip(policy_data.ages, policy_data.terms):
+                    for age, term, annual_amount in zip(policy_data.ages, policy_data.terms, policy_data.periodic_survival_contingent_benefits):
+                        product_engine = Annuity(self.yield_curves, self.mortality_table, age, term, annual_amount)
+                        expense_engine = ExpenseEngine(self.expense_spec, self.yield_curves, self.mortality_table,
+                                                       self.expense_inflation_rate)
+                        prem_ann_fac_obj = _SurvivalContingentCashflow(self.yield_curves, self.mortality_table, age, term,
+                                                               periodic_cf=1.0)
+
+                        pv_bens = product_engine.present_value()
+                        prem_ann_fac = prem_ann_fac_obj.present_value()
+
                         # TODO: Move this
                         def objective_function(premium: float):
-                            product_engine = Annuity(policy_data, self.yield_curves, self.mortality_table)
-                            expense_engine = ExpenseEngine(self.expense_spec, self.yield_curves, self.mortality_table,
-                                                           policy_data, self.expense_inflation_rate)
-                            pv_prems = _SurvivalContingentCashflow(self.yield_curves, self.mortality_table, age, n,
-                                                                   periodic_cf=premium)
+                            pv_expenses = expense_engine.present_value_for_product(policy_type, age, term, premium)
+                            return pv_bens + pv_expenses - premium * prem_ann_fac
 
-                            return product_engine.present_value() + expense_engine.present_value() - pv_prems.present_value()
-
+                        results.append(root_scalar(objective_function, bracket=[0, pv_bens * 2]).root)
 
                 case PolicyType.Endowment:
                     pass
@@ -60,3 +65,5 @@ class PricingEngine:
                     pass
                 case PolicyType.WholeOfLifeAssurance:
                     pass
+
+            return results

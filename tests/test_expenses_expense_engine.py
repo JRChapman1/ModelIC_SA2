@@ -30,7 +30,7 @@ class TestExpenseEngine(unittest.TestCase):
 
     expense_inflation_rate = 0.03
 
-    eng = ExpenseEngine(expense_spec, discount_curve, mortality, policies_in, expense_inflation_rate)
+    eng = ExpenseEngine(expense_spec, discount_curve, mortality, expense_inflation_rate)
 
 
     def test_expense_engine_pv(self):
@@ -42,7 +42,7 @@ class TestExpenseEngine(unittest.TestCase):
              [1.31971729e+04, 6.00000000e+01, 3.00000000e+01, 2.01608929e+02, 3.94156079e+03, 2.52011161e+02, 0.00000000e+00, 4.85249670e+01],
              [3.60000000e+02, 1.50000000e+02, 6.00000000e+01, 1.94434553e+03, 0.00000000e+00, 2.22210918e+03, 2.02109394e+02, 0.00000000e+00]])
 
-        actual = self.eng.present_value(aggregate=False)
+        actual = self.eng.present_value(self.policies_in, aggregate=False)
 
         assert actual.shape == expected_values.shape
         assert np.allclose(actual.values, expected_values)
@@ -51,7 +51,37 @@ class TestExpenseEngine(unittest.TestCase):
     def test_expense_engine_pv_aggregated(self):
 
         expected = 51687.40256545101
-        actual = self.eng.present_value(aggregate=True)
+        actual = self.eng.present_value(self.policies_in, aggregate=True)
 
-        assert actual == expected
+        assert np.allclose(actual, expected)
+
+
+    def test_expense_engine_pv_term_assurance(self):
+
+        expected_values = np.array([3.38523829e+02, 7.50000000e+01, 3.00000000e+01, 3.83137742e+02, 5.31583030e+02,
+                                    5.74706614e+02, 1.40814485e+01])
+
+        product_type = 'Term Assurance'
+        ages = self.policies_in.get('ages', product_type)
+        terms = self.policies_in.get('terms', product_type)
+        premiums = self.policies_in.get('annual_premium', product_type)
+
+        actual = self.eng.present_value_for_product(product_type, ages, terms, premiums, aggregate=False)
+
+        assert actual.shape == expected_values.shape
+        assert np.allclose(actual.values, expected_values)
+
+
+    def test_expense_engine_pv_term_assurance_aggregated(self):
+
+        expected = 1947.0326635
+
+        product_type = 'Term Assurance'
+        ages = self.policies_in.get('ages', product_type)
+        terms = self.policies_in.get('terms', product_type)
+        premiums = self.policies_in.get('annual_premium', product_type)
+
+        actual = self.eng.present_value_for_product(product_type, ages, terms, premiums, aggregate=True)
+
+        assert np.allclose(actual, expected)
 
