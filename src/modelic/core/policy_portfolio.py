@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 import numpy as np
 import pandas as pd
+import warnings
 
 from modelic.core.custom_types import IntArrayLike, ArrayLike
 from modelic.core.udf_globals import policy_data_csv_columns
@@ -42,3 +43,7 @@ class PolicyPortfolio:
         if attr == 'count':
             return int(sum(self.policy_type == product_type))
         return getattr(self, attr)[self.policy_type == product_type]
+
+    def subset(self, product_type: str):
+        warnings.warn("New instance of PolicyPortfolio created. This may be detrimental to performance and memory usage")
+        return PolicyPortfolio.from_df(self.data.loc[self.policy_type == product_type])

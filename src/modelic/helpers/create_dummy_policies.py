@@ -1,3 +1,5 @@
+# modelic/helpers/create_dummy_policies.py
+
 import numpy as np
 import pandas as pd
 from scipy.optimize import root_scalar
@@ -64,7 +66,7 @@ def create_dummy_endowment_policies(ph_age: IntArrayLike, term: IntArrayLike, de
 def create_dummy_annuity_policies(ph_age: IntArrayLike, term: IntArrayLike, amount: ArrayLike, loading: float = 0):
 
     policies = PolicyPortfolio(ph_age, term, periodic_survival_contingent_benefits=amount)
-    pure_endowment = Annuity(policies, discount_curve, mortality)
+    pure_endowment = PureEndowment(policies, discount_curve, mortality)
     pvs = pure_endowment.present_value(aggregate=False)
 
     policies.annual_premium = pvs * (1 + loading)

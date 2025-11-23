@@ -23,7 +23,7 @@ class TestProductEndowment(unittest.TestCase):
 
     policies = PolicyPortfolio.from_csv(data_path("policy_data", "endowment_test_data.csv"))
 
-    endowments = Endowment(policies, discount_curve, mortality)
+    endowments = Endowment.from_policy_portfolio(policies, discount_curve, mortality)
 
 
     def test_project_cashflows(self):

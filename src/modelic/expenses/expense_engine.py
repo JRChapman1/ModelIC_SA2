@@ -85,6 +85,8 @@ class ExpenseEngine(BaseCashflowModel):
     def project_cashflows(self, aggregate=True):
 
         results = pd.DataFrame(columns=pd.MultiIndex.from_tuples([], names=['Product', 'Description']))
+
+        # TODO: Is this loop necessay?
         for _, expense_component in self.expense_spec.loc[self.expense_spec['Product'].isin(np.unique(self.policy_data.policy_type))].iterrows():
             cfs = self._project_expense_cashflow_single(expense_component['Basis'], expense_component['Type'], expense_component['Amount'], expense_component['Product'], self.expense_inflation_rate)
             if cfs.sum() > 0:
