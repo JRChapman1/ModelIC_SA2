@@ -2,7 +2,6 @@
 
 import numpy as np
 import pandas as pd
-from pandas.errors import InvalidIndexError
 from scipy.optimize import root_scalar
 
 from modelic.core.mortality import MortalityTable
@@ -34,7 +33,7 @@ class PricingEngine:
         self.expense_engine = ExpenseEngine(self.expense_spec, self.yield_curves, self.mortality_table,
                                             self.expense_inflation_rate)
 
-    def price_policies(self, policy_portfolio: PolicyPortfolio):
+    def price_policy_portfolio(self, policy_portfolio: PolicyPortfolio):
 
         # TODO: Ensure dict is best struct to accumulate results in
         results = []
@@ -63,13 +62,13 @@ class PricingEngine:
                                                    np.nan, policy['death_contingent_benefits'])
 
             term = np.nan if policy['terms'] == '' else policy['terms']
-            results.append(self._price_single_policy(policy['policy_type'], policy['ages'], term,
+            results.append(self.price_policy(policy['policy_type'], policy['ages'], term,
                                                      policy['premium_type'], product_engine.present_value()))
 
         return results
 
 
-    def _price_single_policy(self, pol_type, ph_age, pol_term, premium_type, pv_bens):
+    def price_policy(self, pol_type, ph_age, pol_term, premium_type, pv_bens):
 
         match premium_type:
             case 'Single':

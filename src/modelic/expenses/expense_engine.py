@@ -52,7 +52,7 @@ class ExpenseEngine:
         num_cfs = self.mortality_table.ages.max() - self.mortality_table.ages.min() + 1
         times = np.arange(num_cfs)
 
-        t0_amount = self._get_t0_expense_amount(basis, amount, 1, premiums)
+        t0_amount = self._get_t0_expense_amount(basis, amount, ages.size, premiums)
 
         if np.atleast_1d(t0_amount).sum() == 0:
             return np.zeros((num_cfs, 1))

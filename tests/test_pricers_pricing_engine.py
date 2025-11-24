@@ -36,7 +36,7 @@ class TestPricingEngine(unittest.TestCase):
 
         expected_values = np.array([])
 
-        actual = self.eng.price_policies(self.policies_in)
+        actual = self.eng.price_policy_portfolio(self.policies_in)
 
         assert actual.shape == expected_values.shape
         assert np.allclose(actual.values, expected_values)
