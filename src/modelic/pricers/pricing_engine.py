@@ -75,8 +75,8 @@ class PricingEngine:
                 prem_ann_fac = 1
             case 'Regular':
                 prem_ann_fac_obj = _SurvivalContingentCashflow(self.yield_curves, self.mortality_table,
-                                                               ph_age, pol_term, periodic_cf=1.0)
-                prem_ann_fac = prem_ann_fac_obj.present_value()
+                                                               ph_age, pol_term - 1, periodic_cf=1.0)
+                prem_ann_fac = prem_ann_fac_obj.present_value() + 1
             case _:
                 raise ValueError(f'premium_type {premium_type} not recognized')
 
