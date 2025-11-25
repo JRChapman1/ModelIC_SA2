@@ -1,2 +1,4 @@
 policy_data_csv_columns = ['ages', 'terms', 'death_contingent_benefits', 'terminal_survival_contingent_benefits',
-                           'periodic_survival_contingent_benefits', 'annual_premium', 'policy_type', 'premium_type']
+                           'periodic_survival_contingent_benefits', 'annual_premium', 'policy_type', 'premium_type', 'policy_id']
+
+wol_years = 103

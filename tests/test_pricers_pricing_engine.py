@@ -6,7 +6,6 @@ from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
 from modelic.core.policy_portfolio import PolicyPortfolio
 from modelic.pricers.pricing_engine import PricingEngine
-from modelic.expenses.expense_engine import ExpenseEngine
 from _data import data_path
 
 
@@ -36,9 +35,11 @@ class TestPricingEngine(unittest.TestCase):
     def test_pricing_engine(self):
 
         expected = np.array([294.4919, 321.0385, 490.7803, 1334.534, 438.1998, 1100.275, 12677.79, 24088.09,
-                                    4652.497, 1421.843, 12722.83, 11510.22, 959828.2, 130964.4, 116709.7])
+                             4652.497, 1421.843, 12722.83, 11510.22, 959828.2, 130964.4, 116709.7])
 
-        actual = np.array(self.eng.price_policy_portfolio(self.policies_in))
+        actual = self.eng.price_policy_portfolio(self.policies_in)
+
+        actual = np.array([actual[i] for i in range(1, 1+ max(actual.keys()))])
 
         assert actual.shape == expected.shape
         assert np.allclose(actual, expected)

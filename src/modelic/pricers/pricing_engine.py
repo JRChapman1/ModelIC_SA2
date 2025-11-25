@@ -8,20 +8,14 @@ from modelic.core.mortality import MortalityTable
 from modelic.core.curves import YieldCurve
 from modelic.core.policy_portfolio import PolicyPortfolio
 from modelic.products.annuity import Annuity
+from modelic.products.product_types import ProductType
 from modelic.products.life_assurance import LifeAssurance
 from modelic.products.endowment import Endowment
 from modelic.products.pure_endowment import PureEndowment
 from modelic.expenses.expense_engine import ExpenseEngine
 from modelic.core.contingent_cashflows.survival_contingent_cashflow import _SurvivalContingentCashflow
+from modelic.products.product_factory import PRODUCT_FACTORY
 
-
-# TODO: Move to seperate module
-class PolicyType:
-    Annuity = 'Annuity'
-    Endowment = 'Endowment'
-    PureEndowment = 'Pure Endowment'
-    TermAssurance = 'Term Assurance'
-    WholeOfLifeAssurance = 'Whole-of-Life Assurance'
 
 class PricingEngine:
 
@@ -36,34 +30,20 @@ class PricingEngine:
     def price_policy_portfolio(self, policy_portfolio: PolicyPortfolio):
 
         # TODO: Ensure dict is best struct to accumulate results in
-        results = []
+        results = {}
 
-        for idx, policy in policy_portfolio.data.iterrows():
 
-            match policy['policy_type']:
-                case PolicyType.Annuity:
-                    product_engine = Annuity(self.yield_curves, self.mortality_table, policy['ages'], policy['terms'],
-                                             policy['periodic_survival_contingent_benefits'])
+        for policy_type in np.unique(policy_portfolio.policy_type):
 
-                case PolicyType.Endowment:
-                    product_engine = Endowment(self.yield_curves, self.mortality_table, policy['ages'], policy['terms'],
-                                               policy['terminal_survival_contingent_benefits'], policy['death_contingent_benefits'])
+            filtered_policies = policy_portfolio.subset(policy_type)
 
-                case PolicyType.PureEndowment:
-                    product_engine = PureEndowment(self.yield_curves, self.mortality_table, policy['ages'],
-                                                   policy['terms'], policy['terminal_survival_contingent_benefits'])
+            product_engine = PRODUCT_FACTORY[policy_type].from_policy_portfolio(filtered_policies, self.yield_curves, self.mortality_table)
 
-                case PolicyType.TermAssurance:
-                    product_engine = LifeAssurance(self.yield_curves, self.mortality_table, policy['ages'],
-                                                   policy['terms'], policy['death_contingent_benefits'])
-
-                case PolicyType.WholeOfLifeAssurance:
-                    product_engine = LifeAssurance(self.yield_curves, self.mortality_table, policy['ages'],
-                                                   np.nan, policy['death_contingent_benefits'])
-
-            term = np.nan if policy['terms'] == '' else policy['terms']
-            results.append(self.price_policy(policy['policy_type'], policy['ages'], term,
-                                                     policy['premium_type'], product_engine.present_value()))
+            ben_pvs = product_engine.present_value(aggregate=False)
+            for idx, policy in filtered_policies.data.iterrows():
+                term = np.nan if policy['terms'] == '' else policy['terms']
+                results[policy.policy_id] = self.price_policy(policy['policy_type'], policy['ages'], term,
+                                                         policy['premium_type'], ben_pvs[idx])
 
         return results
 

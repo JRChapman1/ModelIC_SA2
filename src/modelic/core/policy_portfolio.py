@@ -6,19 +6,19 @@ import pandas as pd
 import warnings
 
 from modelic.core.custom_types import IntArrayLike, ArrayLike
-from modelic.core.udf_globals import policy_data_csv_columns
+from modelic.core.udf_globals import policy_data_csv_columns, wol_years
 
-@dataclass
+@dataclass(frozen=True)
 class PolicyPortfolio:
     ages: IntArrayLike
-    terms: IntArrayLike
+    _terms: IntArrayLike
     death_contingent_benefits: ArrayLike = None
     terminal_survival_contingent_benefits: ArrayLike = None
     periodic_survival_contingent_benefits: ArrayLike = None
     annual_premium: ArrayLike = None
     policy_type: ArrayLike = None
     premium_type: ArrayLike = None
-
+    _policy_id: IntArrayLike = None
 
     @classmethod
     def from_csv(cls, path: str):
@@ -31,6 +31,19 @@ class PolicyPortfolio:
         columns_given = df.columns
         return cls(*[df[col].values if np.isin(col, columns_given) else None for col in policy_data_csv_columns])
 
+    @property
+    def policy_id(self):
+        if self._policy_id is None:
+            return np.arange(1, self.count+1)
+        else:
+            return self._policy_id
+
+
+    @property
+    def terms(self):
+        policy_terms = self._terms.astype(float)
+        policy_terms[np.isnan(policy_terms)] = wol_years
+        return policy_terms.astype(int)
 
     @property
     def count(self):
@@ -38,7 +51,7 @@ class PolicyPortfolio:
 
     @property
     def data(self):
-        return pd.DataFrame({k: v for k, v in self.__dict__.items() if v is not None}).fillna('')
+        return pd.DataFrame({k: getattr(self, k) for k in policy_data_csv_columns})
 
     def get(self, attr: str, product_type: str):
         if attr == 'count':

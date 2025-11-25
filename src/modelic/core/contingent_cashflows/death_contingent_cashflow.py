@@ -15,9 +15,8 @@ class _DeathContingentCashflow(BaseCashflowModel):
     def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, ph_age: IntArrayLike, term: IntArrayLike,
                  death_contingent_cf: ArrayLike = 1, projection_steps: IntArrayLike = None):
 
-        policy_terms = np.asarray(term)
-        policy_terms[np.isnan(policy_terms)] = mortality_table.max_age - mortality_table.min_age
-        policy_terms = policy_terms.astype(int)
+        policy_terms = np.nan_to_num(np.asarray(term, dtype=np.float64), nan=mortality_table.max_age-mortality_table.min_age).astype(int)
+        ph_age = np.asarray(ph_age)
 
         if projection_steps is None:
             projection_steps = np.arange(1, policy_terms.max() + 1)

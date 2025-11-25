@@ -15,17 +15,16 @@ class _SurvivalContingentCashflow(BaseCashflowModel):
     def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, ph_age: IntArrayLike, term: IntArrayLike,
                  *, periodic_cf: ArrayLike = None, terminal_cf: ArrayLike = None, projection_steps: IntArrayLike = None):
 
-        policy_terms = np.asarray(term)
-        policy_terms[np.isnan(policy_terms)] = mortality_table.max_age - mortality_table.min_age
-        policy_terms = policy_terms.astype(int)
+        term = np.nan_to_num(np.asarray(term, dtype=np.float64), nan=mortality_table.max_age-mortality_table.min_age).astype(int)
+        ph_age = np.asarray(ph_age)
 
         if projection_steps is None:
-            projection_steps = np.arange(1, policy_terms.max() + 1)
+            projection_steps = np.arange(1, term.max() + 1)
 
         super().__init__(projection_steps, yield_curve)
 
         self.age = np.asarray(ph_age, dtype=int)
-        self.term = policy_terms
+        self.term = term
         self.periodic_amount = None if periodic_cf is None else np.asarray(periodic_cf, dtype=float)
         self.terminal_amount = None if terminal_cf is None else np.asarray(terminal_cf, dtype=float)
         self.mortality = mortality_table
