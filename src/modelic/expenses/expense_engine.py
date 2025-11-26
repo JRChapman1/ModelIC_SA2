@@ -151,6 +151,9 @@ class ExpenseEngine:
 
         expense_pvs = policies_x_expenses[['policy_id', 'Product', 'Type', 'Description', 'Basis', 'Expense PV']]
 
+        # TODO: Should not need to do this - join type must be wrong
+        expense_pvs = expense_pvs.loc[~expense_pvs['policy_id'].isna()]
+
         if group_by is not None:
             if group_by == '*':
                 expense_pvs = float(expense_pvs['Expense PV'].sum())

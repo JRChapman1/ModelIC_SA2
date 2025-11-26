@@ -16,7 +16,11 @@ class TestPricingEngine(unittest.TestCase):
     except FileNotFoundError:
         expense_spec = pd.read_csv('./Parameters/expense_spec.csv')
 
-    policies_in = PolicyPortfolio.from_csv(data_path('policy_data', 'mixed_policies.csv'))
+    policies_in = pd.read_csv(data_path('policy_data', 'mixed_policies.csv'))
+
+    # TODO: Should not need to do this
+    policies_in['annual_premium'] = 1.0
+    policies_in = PolicyPortfolio.from_df(policies_in)
 
     mort_raw = pd.read_csv(data_path('mortality', 'AM92.csv'))
     ages = mort_raw['x'].to_numpy(int)

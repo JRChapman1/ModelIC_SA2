@@ -15,6 +15,7 @@ from modelic.products.pure_endowment import PureEndowment
 from modelic.expenses.expense_engine import ExpenseEngine
 from modelic.core.contingent_cashflows.survival_contingent_cashflow import _SurvivalContingentCashflow
 from modelic.products.product_factory import PRODUCT_FACTORY
+from modelic.core.custom_types import ArrayLike
 
 
 class PricingEngine:
@@ -40,10 +41,11 @@ class PricingEngine:
             product_engine = PRODUCT_FACTORY[policy_type].from_policy_portfolio(filtered_policies, self.yield_curves, self.mortality_table)
 
             ben_pvs = product_engine.present_value(aggregate=False)
-            for idx, policy in filtered_policies.data.iterrows():
-                term = np.nan if policy['terms'] == '' else policy['terms']
-                results[policy.policy_id] = self.price_policy(policy['policy_type'], policy['ages'], term,
-                                                         policy['premium_type'], ben_pvs[idx])
+
+            prices = self.price_policy_group(filtered_policies, ben_pvs)
+            prices.index = prices.index.astype(int)
+
+            results |= prices.to_dict()
 
         return results
 
@@ -67,3 +69,25 @@ class PricingEngine:
 
         # TODO: Fix bracket parameter
         return root_scalar(objective_function, bracket=[0, pv_bens * 2]).root
+
+
+    def price_policy_group(self, policy_data: PolicyPortfolio, pv_bens: ArrayLike):
+
+        reg_prem_pols = policy_data.premium_type == 'Regular'
+        prem_ann_fac = np.ones(policy_data.ages.size)
+
+        if reg_prem_pols.any():
+
+            prem_ann_fac_obj = _SurvivalContingentCashflow(self.yield_curves, self.mortality_table,
+                                                           policy_data.ages[reg_prem_pols], policy_data.terms[reg_prem_pols] - 1,
+                                                           periodic_cf=1.0)
+
+            prem_ann_fac[reg_prem_pols] += prem_ann_fac_obj.present_value()
+
+        pv_expenses = self.expense_engine.present_value(policy_data, group_by=['policy_id', 'Basis'], unstack=True)
+        premium = (pv_bens + pv_expenses['PER_POLICY']) / (prem_ann_fac - pv_expenses['PCT_PREMIUM'])
+        """
+        premium * prem_ann_fac = pv_bens + pv_expenses['PER_POLICY'] - premium * pv_expenses['PCT_PREMIUM']
+        """
+
+        return premium
