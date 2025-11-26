@@ -78,71 +78,92 @@ class ExpenseEngine:
         return results
 
 
-    def project_cashflows(self, policy_data: PolicyPortfolio, aggregate=True):
+    def project_cashflows(self, ages: IntArrayLike, terms: IntArrayLike,
+                          premiums: IntArrayLike, aggregate: bool=True):
 
         results = pd.DataFrame(columns=pd.MultiIndex.from_tuples([], names=['Product', 'Description']))
 
-        # TODO: Is this loop necessay?
-        expense_spec = self.expense_spec.loc[self.expense_spec['Product'].isin(np.unique(policy_data.policy_type))]
-        for _, expense_component in expense_spec.iterrows():
-
-            premiums = policy_data.get('annual_premium', expense_component['Product'])
-            ages = policy_data.get('ages', expense_component['Product'])
-            terms = policy_data.get('terms', expense_component['Product'])
+        for _, expense_component in self.expense_spec.iterrows():
 
             cfs = self._project_expense_cashflow_single(expense_component['Basis'], expense_component['Type'],
                                                         expense_component['Amount'], ages, terms, premiums,
                                                         self.expense_inflation_rate)
             if cfs.sum() > 0:
                 results = results.reindex(range(np.atleast_1d(cfs).size), fill_value=0.0)
-                results[(expense_component['Product'],  f"{expense_component['Description']} ({expense_component['Type']})")] = cfs
+                results[(expense_component['Product'],
+                         f"{expense_component['Description']} ({expense_component['Type']})")] = cfs
         return results.sum(axis=1).values if aggregate else results
-
-
-    def project_cashflows_for_product(self, product_type: str, ages: IntArrayLike, terms: IntArrayLike,
-                                      premiums: IntArrayLike, aggregate=True):
-
-        results = pd.DataFrame()
-
-        # TODO: Is this loop necessay?
-        expense_spec = self.expense_spec.loc[self.expense_spec['Product'] == product_type]
-        for _, expense_component in expense_spec.iterrows():
-
-            cfs = self._project_expense_cashflow_single(expense_component['Basis'], expense_component['Type'],
-                                                        expense_component['Amount'], ages, terms, premiums,
-                                                        self.expense_inflation_rate)
-            if cfs.sum() > 0:
-                results = results.reindex(range(np.atleast_1d(cfs).size), fill_value=0.0)
-                results[f"{expense_component['Description']} ({expense_component['Type']})"] = cfs
-
-        return results.sum(axis=1).values if aggregate else results
-
 
     def discount_factors(self, times, spread: ArrayLike = 0) -> np.ndarray:
         zeros = self.yield_curve.zero(times)[:, None] + np.atleast_2d(spread)
         return zero_to_df(times, zeros)
 
 
-    def present_value(self, policy_data, spread: ArrayLike = 0.0, aggregate: bool = True):
+    def present_value(self, policy_data: PolicyPortfolio, *, group_by: str = None, unstack=False):
 
-        cf = self.project_cashflows(policy_data, aggregate=False)
-        df = self.discount_factors(np.arange(cf.shape[0]), spread)
-        pv = (df * cf).sum(axis=0)
+        num_cfs = self.mortality_table.ages.max() - self.mortality_table.ages.min() + 1
+        times = np.arange(num_cfs)
 
-        if type(pv) is pd.Series:
-            return float(pv.sum()) if aggregate else pv.unstack(fill_value=0)
-        else:
-            return float(pv.sum()) if aggregate else pv
+        policies_x_expenses = pd.merge(policy_data.data, self.expense_spec, how="outer", left_on="policy_type",
+                                       right_on="Product")
 
+        amounts = np.where(policies_x_expenses['Basis']=='PCT_PREMIUM',
+                           policies_x_expenses['Amount'] * policies_x_expenses['annual_premium'],
+                           policies_x_expenses['Amount'])
 
-    def present_value_for_product(self, product_type: str, ages: IntArrayLike, terms: IntArrayLike,
-                                  premiums: IntArrayLike, spread=0.0, aggregate=True):
+        factors = np.zeros_like(amounts)
 
-        cf = self.project_cashflows_for_product(product_type, ages, terms, premiums, aggregate=False)
-        df = self.discount_factors(np.arange(cf.shape[0]), spread)
-        pv = (df * cf).sum(axis=0)
+        # Initial expense factors
 
-        return float(pv.sum()) if aggregate else pv
+        factors[policies_x_expenses['Type'] == ExpenseTiming.INITIAL] = 1
+
+        # Renewal expense factors
+
+        renewal_mask = policies_x_expenses['Type'] == ExpenseTiming.RENEWAL
+        ages = policies_x_expenses['ages'][renewal_mask]
+        terms = policies_x_expenses['terms'][renewal_mask]
+        surv_obj = _SurvivalContingentCashflow(self.yield_curve, self.mortality_table, ages, terms - 1, periodic_cf=1,
+                                               projection_steps=times, escalation=self.expense_inflation_rate)
+
+        factors[renewal_mask] = surv_obj.present_value(aggregate=False)
+
+        # Maturity expense factors
+
+        maturity_mask = policies_x_expenses['Type'] == ExpenseTiming.SURVIVAL
+        ages = policies_x_expenses['ages'][maturity_mask]
+        terms = policies_x_expenses['terms'][maturity_mask]
+        surv_obj = _SurvivalContingentCashflow(self.yield_curve, self.mortality_table, ages, terms, terminal_cf=1,
+                                               projection_steps=times, escalation=self.expense_inflation_rate)
+
+        factors[maturity_mask] = surv_obj.present_value(aggregate=False)
+
+        # Death expense factors
+
+        death_mask = policies_x_expenses['Type'] == ExpenseTiming.DEATH
+        ages = policies_x_expenses['ages'][death_mask]
+        terms = policies_x_expenses['terms'][death_mask]
+        surv_obj = _DeathContingentCashflow(self.yield_curve, self.mortality_table, ages, terms, death_contingent_cf=1,
+                                            projection_steps=times, escalation=self.expense_inflation_rate)
+
+        factors[death_mask] = surv_obj.present_value(aggregate=False)
+
+        policies_x_expenses['Expense PV'] = (factors * amounts)
+
+        expense_pvs = policies_x_expenses[['policy_id', 'Product', 'Type', 'Description', 'Basis', 'Expense PV']]
+
+        if group_by is not None:
+            if group_by == '*':
+                expense_pvs = float(expense_pvs['Expense PV'].sum())
+            else:
+                expense_pvs = expense_pvs.groupby(group_by, as_index=False).sum()
+
+        if unstack:
+            assert len(group_by) == 2, "Can only unstack a table with exactly 2 grouping categories."
+            expense_pvs = pd.Series(expense_pvs['Expense PV'].values, index=pd.MultiIndex.from_arrays((expense_pvs[group_by[0]], expense_pvs[group_by[1]])))
+            expense_pvs = expense_pvs.unstack(fill_value=0.0)
+
+        return expense_pvs
+
 
 
 

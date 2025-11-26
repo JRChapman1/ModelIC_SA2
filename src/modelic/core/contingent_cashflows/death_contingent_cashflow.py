@@ -13,7 +13,7 @@ class _DeathContingentCashflow(BaseCashflowModel):
     """ Projects cashflows and calculates present values for death contingent contingent_cashflows """
 
     def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, ph_age: IntArrayLike, term: IntArrayLike,
-                 death_contingent_cf: ArrayLike = 1, projection_steps: IntArrayLike = None):
+                 death_contingent_cf: ArrayLike = 1, *, projection_steps: IntArrayLike = None, escalation: float = 0.0):
 
         policy_terms = np.nan_to_num(np.asarray(term, dtype=np.float64), nan=mortality_table.max_age-mortality_table.min_age).astype(int)
         ph_age = np.asarray(ph_age)
@@ -28,6 +28,7 @@ class _DeathContingentCashflow(BaseCashflowModel):
         self.amount = np.asarray(death_contingent_cf, dtype=float)
         self.mortality = mortality_table
         self.discount_curve = yield_curve
+        self.escalation = escalation
 
     @classmethod
     def from_policy_portfolio(cls, policy_portfolio: PolicyPortfolio, yield_curve: YieldCurve,
@@ -41,5 +42,6 @@ class _DeathContingentCashflow(BaseCashflowModel):
 
         death_in_year = self.mortality.nqx(self.age, self.term, full_path=True)
         cfs[(self.times >= 1) & (self.times <= self.term.max())] = self.amount * death_in_year
+        cfs *= (1 + self.escalation) ** np.tile(self.times.reshape(-1, 1), self.age.size)
 
         return cfs.sum(axis=1) if aggregate else cfs

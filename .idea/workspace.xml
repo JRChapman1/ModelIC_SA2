@@ -4,23 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="275dd8c0-08fc-44d0-9bb6-8c277ef0d324" name="Changes" comment="GPT PR feedback addressed">
-      <change afterPath="$PROJECT_DIR$/src/modelic/pricers/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modelic/pricers/pricing_engine.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/temp.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_pricers_pricing_engine.py" afterDir="false" />
+    <list default="true" id="275dd8c0-08fc-44d0-9bb6-8c277ef0d324" name="Changes" comment="Updates to mixed_policies.csv to ensure all tests passing.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/core/policy_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/policy_portfolio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelic/core/contingent_cashflows/death_contingent_cashflow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/contingent_cashflows/death_contingent_cashflow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelic/core/contingent_cashflows/survival_contingent_cashflow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/core/contingent_cashflows/survival_contingent_cashflow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modelic/expenses/expense_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/expenses/expense_engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/helpers/create_dummy_policies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/helpers/create_dummy_policies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/products/annuity.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/products/annuity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/products/endowment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/products/endowment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/products/life_assurance.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/products/life_assurance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelic/products/pure_endowment.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/products/pure_endowment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_product_annuity.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_product_annuity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_product_endowment.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_product_endowment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_product_life_assurance.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_product_life_assurance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_product_pure_endowment.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_product_pure_endowment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelic/pricers/pricing_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelic/pricers/pricing_engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_expenses_expense_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_expenses_expense_engine.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +109,9 @@
     "Python tests.Python tests for tests.test_core_mortality_old.TestMortalityTable.test_tp_age_arr_t3_full_path.executor": "Debug",
     "Python tests.Python tests for tests.test_core_mortality_old.TestMortalityTable.test_tq_age_arr_t_out_of_bounds_full_path.executor": "Run",
     "Python tests.Python tests for tests.test_core_policy_portfolio.TestPolicyPortfolio.executor": "Run",
+    "Python tests.Python tests for tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv.executor": "Debug",
+    "Python tests.Python tests for tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv_aggregated.executor": "Debug",
+    "Python tests.Python tests for tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv_term_assurance.executor": "Debug",
     "Python tests.Python tests for tests.test_pricers_pricing_engine.TestPricingEngine.test_pricing_engine.executor": "Debug",
     "Python tests.Python tests for tests.test_product_annuity.TestMortalityTable.test_present_value.executor": "Run",
     "Python tests.Python tests for tests.test_product_annuity.TestMortalityTable.test_present_value_aggregated.executor": "Run",
@@ -173,7 +166,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Python tests.Python tests in tests">
-    <configuration name="Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_3_full_path2" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="ModelIC" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -184,7 +177,37 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_3_full_path2&quot;" />
+      <option name="_new_target" value="&quot;tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv_aggregated" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="ModelIC" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv_aggregated&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv_term_assurance" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="ModelIC" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv_term_assurance&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -200,36 +223,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;tests.test_pricers_pricing_engine.TestPricingEngine.test_pricing_engine&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for tests.test_product_endowment.TestPureEndowment" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="ModelIC" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_product_endowment.TestPureEndowment&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for tests.test_product_life_assurance.TestLifeAssurance.test_present_value_aggregated" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="ModelIC" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_product_life_assurance.TestLifeAssurance.test_present_value_aggregated&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -251,10 +244,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python tests.Python tests in tests" />
+        <item itemvalue="Python tests.Python tests for tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv" />
+        <item itemvalue="Python tests.Python tests for tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv_aggregated" />
+        <item itemvalue="Python tests.Python tests for tests.test_expenses_expense_engine.TestExpenseEngine.test_expense_engine_pv_term_assurance" />
         <item itemvalue="Python tests.Python tests for tests.test_pricers_pricing_engine.TestPricingEngine.test_pricing_engine" />
-        <item itemvalue="Python tests.Python tests for tests.test_core_mortality.TestMortalityTable.test_nqx_age_arr_3_full_path2" />
-        <item itemvalue="Python tests.Python tests for tests.test_product_life_assurance.TestLifeAssurance.test_present_value_aggregated" />
-        <item itemvalue="Python tests.Python tests for tests.test_product_endowment.TestPureEndowment" />
       </list>
     </recent_temporary>
   </component>
@@ -313,7 +306,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762878801621</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Updates to mixed_policies.csv to ensure all tests passing.">
+      <option name="closed" value="true" />
+      <created>1764171449673</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1764171449673</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -322,7 +323,8 @@
     <MESSAGE value="Fix to code in prior commit" />
     <MESSAGE value="full_path option added to mortality" />
     <MESSAGE value="All unit tests passing" />
-    <option name="LAST_COMMIT_MESSAGE" value="All unit tests passing" />
+    <MESSAGE value="Updates to mixed_policies.csv to ensure all tests passing." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updates to mixed_policies.csv to ensure all tests passing." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -364,11 +366,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/tests/test_core_mortality.py</url>
-          <line>185</line>
-          <option name="timeStamp" value="96" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/test_core_mortality.py</url>
           <line>230</line>
           <option name="timeStamp" value="101" />
         </line-breakpoint>
@@ -378,9 +375,14 @@
           <option name="timeStamp" value="278" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/test_core_mortality.py</url>
-          <line>263</line>
-          <option name="timeStamp" value="281" />
+          <url>file://$PROJECT_DIR$/src/modelic/expenses/expense_engine.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="477" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_expenses_expense_engine.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="488" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

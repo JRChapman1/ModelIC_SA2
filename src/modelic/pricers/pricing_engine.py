@@ -62,7 +62,7 @@ class PricingEngine:
 
         # TODO: Move this
         def objective_function(premium: float):
-            pv_expenses = self.expense_engine.present_value_for_product(pol_type, ph_age, pol_term, premium)
+            pv_expenses = self.expense_engine.present_value(ph_age, pol_term, premium, product_type=pol_type)
             return pv_bens + pv_expenses - premium * prem_ann_fac
 
         # TODO: Fix bracket parameter
