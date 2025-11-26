@@ -1,16 +1,16 @@
-,ages,terms,death_contingent_benefits,terminal_survival_contingent_benefits,periodic_survival_contingent_benefits,annual_premium,policy_type
-0,34,21,150000,,,262.94987738298494,Term Assurance
-1,47,13,70000,,,293.6363058833453,Term Assurance
-2,73,2,10000,,,410.62475635328195,Term Assurance
-0,43,,50000,,,1281.3391337669532,Whole-of-Life Assurance
-1,55,,10000,,,386.84803835985895,Whole-of-Life Assurance
-2,69,,15000,,,1122.3002132360175,Whole-of-Life Assurance
-0,40,15,,210000,,13647.361361574247,Pure Endowment
-1,53,7,,170000,,25406.608727064962,Pure Endowment
-2,76,4,,20000,,4936.606238028651,Pure Endowment
-0,41,9,12000,12000,,1408.079062324448,Endowment
-1,45,10,125000,125000,,13155.08758320293,Endowment
-2,53,5,52000,52000,,11366.91349130074,Endowment
-0,58,103.0,,,50000,1053137.4340557896,Annuity
-1,68,103.0,,,10000,142349.98618060778,Annuity
-2,78,103.0,,,15000,127332.66392212729,Annuity
+,ages,terms,death_contingent_benefits,terminal_survival_contingent_benefits,periodic_survival_contingent_benefits,annual_premium,policy_type,premium_type
+0,34,21,150000,,,294.4919,Term Assurance,Regular
+1,47,13,70000,,,321.0385,Term Assurance,Regular
+2,73,2,10000,,,490.7803,Term Assurance,Regular
+0,43,,50000,,,1334.534,Whole-of-Life Assurance,Regular
+1,55,,10000,,,438.1998,Whole-of-Life Assurance,Regular
+2,69,,15000,,,1100.275,Whole-of-Life Assurance,Regular
+0,40,15,,210000,,12677.79,Pure Endowment,Regular
+1,53,7,,170000,,24088.09,Pure Endowment,Regular
+2,76,4,,20000,,4652.497,Pure Endowment,Regular
+0,41,9,12000,12000,,1421.843,Endowment,Regular
+1,45,10,125000,125000,,12722.83,Endowment,Regular
+2,53,5,52000,52000,,11510.22,Endowment,Regular
+0,58,103,,,50000,959828.2,Annuity,Single
+1,68,103,,,10000,130964.4,Annuity,Single
+2,78,103,,,15000,116709.7,Annuity,Single
