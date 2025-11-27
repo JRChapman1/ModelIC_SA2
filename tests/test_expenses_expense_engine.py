@@ -30,19 +30,28 @@ class TestExpenseEngine(unittest.TestCase):
 
     expense_inflation_rate = 0.03
 
-    eng = ExpenseEngine(expense_spec, discount_curve, mortality, policies_in, expense_inflation_rate)
+    eng = ExpenseEngine(expense_spec, discount_curve, mortality, expense_inflation_rate)
+
+    expense_spec_per_pol_only = expense_spec.copy()[expense_spec['Basis'] == 'PER_POLICY']
+    eng_per_pol_only = ExpenseEngine(expense_spec_per_pol_only, discount_curve, mortality, expense_inflation_rate)
+
+    expense_spec_pct_prem_only = expense_spec.copy()[expense_spec['Basis'] == 'PCT_PREMIUM']
+    eng_pct_prem_only = ExpenseEngine(expense_spec_pct_prem_only, discount_curve, mortality, expense_inflation_rate)
+
+    expense_spec_no_death_exp = expense_spec.copy()[expense_spec['Type'] != 'DEATH']
+    eng_no_death_exp = ExpenseEngine(expense_spec_no_death_exp, discount_curve, mortality, expense_inflation_rate)
 
 
     def test_expense_engine_pv(self):
 
         expected_values = np.array(
-            [[3.38523829e+02, 7.50000000e+01, 3.00000000e+01, 3.83137742e+02, 5.31583030e+02, 5.74706614e+02, 1.40814485e+01, 0.00000000e+00],
-             [1.11619495e+03, 9.00000000e+01, 4.50000000e+01, 1.54672691e+03, 4.99746960e+03, 2.06230255e+03, 4.98998525e+02, 0.00000000e+00],
-             [1.16685361e+04, 1.05000000e+02, 6.00000000e+01, 4.56106587e+02, 3.79683768e+03, 5.70133234e+02, 6.09408560e+00, 5.15268756e+01],
-             [1.31971729e+04, 6.00000000e+01, 3.00000000e+01, 2.01608929e+02, 3.94156079e+03, 2.52011161e+02, 0.00000000e+00, 4.85249670e+01],
-             [3.60000000e+02, 1.50000000e+02, 6.00000000e+01, 1.94434553e+03, 0.00000000e+00, 2.22210918e+03, 2.02109394e+02, 0.00000000e+00]])
+            [[3.60000000e+02, 2.09434553e+03, 0.00000000e+00, 2.02109394e+02, 6.00e+01, 0.00000000e+00, 2.22210918e+03],
+             [1.15447019e+04, 5.61106587e+02, 3.72583175e+03, 6.09408560e+00, 6.00e+01, 5.15268756e+01, 5.70133234e+02],
+             [1.24255131e+04, 2.61608929e+02, 3.69441152e+03, 0.00000000e+00, 3.00e+01, 4.85249670e+01, 2.52011161e+02],
+             [3.87208745e+02, 4.58137742e+02, 5.91642317e+02, 1.40814485e+01, 3.00e+01, 0.00000000e+00, 5.74706614e+02],
+             [1.14920352e+03, 1.63672691e+03, 5.20709476e+03, 4.98998525e+02, 4.50e+01, 0.00000000e+00, 2.06230255e+03]])
 
-        actual = self.eng.present_value(aggregate=False)
+        actual = self.eng.present_value(self.policies_in, group_by=['Product', 'Description'], unstack=True)
 
         assert actual.shape == expected_values.shape
         assert np.allclose(actual.values, expected_values)
@@ -50,8 +59,33 @@ class TestExpenseEngine(unittest.TestCase):
 
     def test_expense_engine_pv_aggregated(self):
 
-        expected = 51687.40256545101
-        actual = self.eng.present_value(aggregate=True)
+        expected = 50825.1368
+        actual = self.eng.present_value(self.policies_in, group_by='*')
 
-        assert actual == expected
+        assert np.allclose(actual, expected)
+
+
+    def test_expense_engine_pv_per_policy_only_aggregated(self):
+
+        expected = 12099.523729079947
+        actual = self.eng_per_pol_only.present_value(self.policies_in, group_by='*')
+
+        assert np.allclose(actual, expected)
+
+
+    def test_expense_engine_pv_pct_premium_only_aggregated(self):
+
+        expected = 50825.1368 - 12099.523729079947
+        actual = self.eng_pct_prem_only.present_value(self.policies_in, group_by='*')
+
+        assert np.allclose(actual, expected)
+
+
+    def test_expense_engine_pv_no_death_exp_aggregated(self):
+
+        expected = 50825.1368 - 721.2834535
+        actual = self.eng_no_death_exp.present_value(self.policies_in, group_by='*')
+
+        assert np.allclose(actual, expected)
+
 

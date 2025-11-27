@@ -25,9 +25,9 @@ class TestProductAnnuity(unittest.TestCase):
     policies_various_terms = PolicyPortfolio.from_csv(data_path("policy_data", "annuity_test_data_various_terms.csv"))
     policies_wol = PolicyPortfolio.from_csv(data_path("policy_data", "annuity_test_data.csv"))
 
-    annuity_t3 = Annuity(policies_t3, discount_curve, mortality)
-    annuity_various_terms = Annuity(policies_various_terms, discount_curve, mortality)
-    annuity = Annuity(policies_wol, discount_curve, mortality)
+    annuity_t3 = Annuity.from_policy_portfolio(policies_t3, discount_curve, mortality)
+    annuity_various_terms = Annuity.from_policy_portfolio(policies_various_terms, discount_curve, mortality)
+    annuity = Annuity.from_policy_portfolio(policies_wol, discount_curve, mortality)
 
     def test_project_cashflows_term_3(self):
 

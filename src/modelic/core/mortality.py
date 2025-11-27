@@ -1,6 +1,7 @@
+# modelic/core/mortality.py
+
 from dataclasses import dataclass
 from functools import cached_property
-
 import numpy as np
 
 from modelic.core.custom_types import IntArrayLike, ArrayLike
@@ -49,11 +50,12 @@ class MortalityTable:
 
     def npx(self, age, term=1, *, proj_horizon = None, incl_t0 = False, full_path = False):
 
-        if type(term) is int and type(age) is not int:
-            term = np.repeat(term, len(age))
+        age = np.asarray(age, dtype=int)
+
+        if type(term) is int:
+            term = np.repeat(term, age.size)
         else:
             term = np.asarray(term, dtype=int).copy()
-        age = np.asarray(age, dtype=int)
 
         if full_path:
             term += 1
@@ -62,11 +64,12 @@ class MortalityTable:
 
     def nqx(self, age, term=1, *, proj_horizon = None, full_path = False):
 
-        if type(term) is int and type(age) is not int:
-            term = np.repeat(term, len(age))
+        age = np.asarray(age, dtype=int)
+
+        if type(term) is int:
+            term = np.repeat(term, age.size)
         else:
             term = np.asarray(term, dtype=int).copy()
-        age = np.asarray(age, dtype=int)
 
         if not full_path:
             term -= 1

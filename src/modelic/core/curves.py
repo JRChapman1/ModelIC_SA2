@@ -1,3 +1,5 @@
+# modelic/core/curves.py
+
 from dataclasses import dataclass
 import numpy as np
 
@@ -60,9 +62,6 @@ class YieldCurve:
 
     def validate(self) -> None:
         pass
-
-    def __print__(self):
-        return('foo') # TODO: This should override print(cls) functionality
 
     def _resolve_idx(self, times: np.ndarray) -> np.ndarray:
         return (times - self.min_time).astype(int)

@@ -1,3 +1,5 @@
+# modelic/helpers/create_dummy_policies.py
+
 import numpy as np
 import pandas as pd
 from scipy.optimize import root_scalar
@@ -5,7 +7,7 @@ from scipy.optimize import root_scalar
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
 from modelic.core.policy_portfolio import PolicyPortfolio
-from modelic.core.contingent_cashflows.survival_contingent_cashflow import _SurvivalContingentCashflow
+from modelic.core.contingent_cashflows.survival_contingent_cashflow import SurvivalContingentCashflow
 from modelic.products.endowment import Endowment
 from modelic.products.annuity import Annuity
 from modelic.products.life_assurance import LifeAssurance
@@ -32,7 +34,7 @@ def create_dummy_assurance_policies(ph_age: IntArrayLike, term: IntArrayLike, su
     pvs = life_assurance.present_value(aggregate=False)
     prems = _goalseek_regular_premium(pvs, ph_age, term)
 
-    policies.annual_premium = prems * (1 + loading)
+    policies.premium = prems * (1 + loading)
 
     return policies
 
@@ -44,7 +46,7 @@ def create_dummy_pure_endowment_policies(ph_age: IntArrayLike, term: IntArrayLik
     pvs = pure_endowment.present_value(aggregate=False)
     prems = _goalseek_regular_premium(pvs, ph_age, term)
 
-    policies.annual_premium = prems * (1 + loading)
+    policies.premium = prems * (1 + loading)
 
     return policies
 
@@ -56,7 +58,7 @@ def create_dummy_endowment_policies(ph_age: IntArrayLike, term: IntArrayLike, de
     pvs = pure_endowment.present_value(aggregate=False)
     prems = _goalseek_regular_premium(pvs, ph_age, term)
 
-    policies.annual_premium = prems * (1 + loading)
+    policies.premium = prems * (1 + loading)
 
     return policies
 
@@ -64,7 +66,7 @@ def create_dummy_endowment_policies(ph_age: IntArrayLike, term: IntArrayLike, de
 def create_dummy_annuity_policies(ph_age: IntArrayLike, term: IntArrayLike, amount: ArrayLike, loading: float = 0):
 
     policies = PolicyPortfolio(ph_age, term, periodic_survival_contingent_benefits=amount)
-    pure_endowment = Annuity(policies, discount_curve, mortality)
+    pure_endowment = PureEndowment(policies, discount_curve, mortality)
     pvs = pure_endowment.present_value(aggregate=False)
 
     policies.annual_premium = pvs * (1 + loading)
@@ -82,7 +84,7 @@ def _goalseek_regular_premium(target: ArrayLike, ph_age: IntArrayLike, term: Int
         n = term[i]
 
         def _objective_function(x):
-            cf = _SurvivalContingentCashflow(discount_curve, mortality, age, n, periodic_cf=x)
+            cf = SurvivalContingentCashflow(discount_curve, mortality, age, n, periodic_cf=x)
             return cf.present_value(aggregate=False) - target[i]
 
         results.append(root_scalar(_objective_function, bracket=[0, target[i]]).root)

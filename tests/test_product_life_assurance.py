@@ -24,8 +24,8 @@ class TestProductLifeAssurance(unittest.TestCase):
     wol_policies = PolicyPortfolio.from_csv(data_path("policy_data", "wol_test_data.csv"))
     term_policies = PolicyPortfolio.from_csv(data_path("policy_data", "ta_test_data.csv"))
 
-    term_death_benefit = LifeAssurance(term_policies, discount_curve, mortality)
-    wol_death_benefit = LifeAssurance(wol_policies, discount_curve, mortality)
+    term_death_benefit = LifeAssurance.from_policy_portfolio(term_policies, discount_curve, mortality)
+    wol_death_benefit = LifeAssurance.from_policy_portfolio(wol_policies, discount_curve, mortality)
 
     def test_project_cashflows_term_3(self):
 

@@ -9,15 +9,14 @@ from modelic.core.policy_portfolio import PolicyPortfolio
 from modelic.core.custom_types import ArrayLike, IntArrayLike
 
 
-class _DeathContingentCashflow(BaseCashflowModel):
+class DeathContingentCashflow(BaseCashflowModel):
     """ Projects cashflows and calculates present values for death contingent contingent_cashflows """
 
     def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, ph_age: IntArrayLike, term: IntArrayLike,
-                 death_contingent_cf: ArrayLike = 1, projection_steps: IntArrayLike = None):
+                 death_contingent_cf: ArrayLike = 1, *, projection_steps: IntArrayLike = None, escalation: float = 0.0):
 
-        policy_terms = np.asarray(term)
-        policy_terms[np.isnan(policy_terms)] = mortality_table.max_age - mortality_table.min_age
-        policy_terms = policy_terms.astype(int)
+        policy_terms = np.nan_to_num(np.asarray(term, dtype=np.float64), nan=mortality_table.max_age-mortality_table.min_age).astype(int)
+        ph_age = np.asarray(ph_age)
 
         if projection_steps is None:
             projection_steps = np.arange(1, policy_terms.max() + 1)
@@ -29,12 +28,25 @@ class _DeathContingentCashflow(BaseCashflowModel):
         self.amount = np.asarray(death_contingent_cf, dtype=float)
         self.mortality = mortality_table
         self.discount_curve = yield_curve
+        self.escalation = escalation
 
     @classmethod
-    def from_policy_portfolio(cls, policy_portfolio: PolicyPortfolio, yield_curve: YieldCurve,
-                              mortality_table: MortalityTable) -> "_DeathContingentCashflow":
-        return cls(yield_curve, mortality_table, policy_portfolio.ages, policy_portfolio.terms,
-                   policy_portfolio.death_contingent_benefits)
+    def from_policy_portfolio(cls, policy_data: PolicyPortfolio, yield_curve: YieldCurve,
+                              mortality_table: MortalityTable, *, projection_steps: IntArrayLike = None,
+                              policy_mask: bool = None) -> "DeathContingentCashflow":
+
+        ages = policy_data.ages
+        terms = policy_data.terms
+        death_contingent_benefits = policy_data.death_contingent_benefits
+
+        if policy_mask is not None:
+            assert policy_mask.size == policy_data.count, "Policy mask shape does not match policy mask shape"
+            ages = ages[policy_mask]
+            terms = terms[policy_mask]
+            death_contingent_benefits = death_contingent_benefits[policy_mask]
+
+        return cls(yield_curve, mortality_table, ages, terms, death_contingent_benefits,
+                   projection_steps=projection_steps)
 
     def project_cashflows(self, aggregate: bool = True) -> ArrayLike:
 
@@ -42,5 +54,6 @@ class _DeathContingentCashflow(BaseCashflowModel):
 
         death_in_year = self.mortality.nqx(self.age, self.term, full_path=True)
         cfs[(self.times >= 1) & (self.times <= self.term.max())] = self.amount * death_in_year
+        cfs *= (1 + self.escalation) ** np.tile(self.times.reshape(-1, 1), self.age.size)
 
         return cfs.sum(axis=1) if aggregate else cfs
