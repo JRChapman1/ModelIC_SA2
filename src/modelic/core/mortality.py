@@ -1,6 +1,7 @@
+# modelic/core/mortality.py
+
 from dataclasses import dataclass
 from functools import cached_property
-
 import numpy as np
 
 from modelic.core.custom_types import IntArrayLike, ArrayLike

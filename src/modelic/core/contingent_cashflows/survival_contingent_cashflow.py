@@ -33,15 +33,28 @@ class SurvivalContingentCashflow(BaseCashflowModel):
         self.escalation = escalation
 
     @classmethod
-    def from_policy_portfolio(cls, policy_portfolio: PolicyPortfolio, yield_curve: YieldCurve,
-                              mortality_table: MortalityTable, *, projection_steps: IntArrayLike = None) -> "SurvivalContingentCashflow":
+    def from_policy_portfolio(cls, policy_data: PolicyPortfolio, yield_curve: YieldCurve,
+                              mortality_table: MortalityTable, *, projection_steps: IntArrayLike = None,
+                              policy_mask: bool = None) -> "SurvivalContingentCashflow":
+
+        ages = policy_data.ages
+        terms = policy_data.terms
+        periodic_survival_contingent_benefits = policy_data.periodic_survival_contingent_benefits
+        terminal_survival_contingent_benefits = policy_data.terminal_survival_contingent_benefits
+
+        if policy_mask is not None:
+            assert policy_mask.size == policy_data.count, "Policy mask shape does not match policy mask shape"
+            ages = ages[policy_mask]
+            terms = terms[policy_mask]
+            periodic_survival_contingent_benefits = periodic_survival_contingent_benefits[policy_mask]
+            terminal_survival_contingent_benefits = terminal_survival_contingent_benefits[policy_mask]
 
         return cls(yield_curve,
                    mortality_table,
-                   policy_portfolio.ages,
-                   policy_portfolio.terms,
-                   periodic_cf=policy_portfolio.periodic_survival_contingent_benefits,
-                   terminal_cf=policy_portfolio.terminal_survival_contingent_benefits,
+                   ages,
+                   terms,
+                   periodic_cf=periodic_survival_contingent_benefits,
+                   terminal_cf=terminal_survival_contingent_benefits,
                    projection_steps=projection_steps)
 
     def project_cashflows(self, aggregate: bool = True) -> ArrayLike:

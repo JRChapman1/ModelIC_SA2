@@ -3,7 +3,6 @@
 from dataclasses import dataclass
 import numpy as np
 import pandas as pd
-import warnings
 
 from modelic.core.custom_types import IntArrayLike, ArrayLike
 from modelic.core.udf_globals import policy_data_csv_columns, wol_years
@@ -15,10 +14,10 @@ class PolicyPortfolio:
     death_contingent_benefits: ArrayLike = None
     terminal_survival_contingent_benefits: ArrayLike = None
     periodic_survival_contingent_benefits: ArrayLike = None
-    annual_premium: ArrayLike = None
     policy_type: ArrayLike = None
     premium_type: ArrayLike = None
     _policy_id: IntArrayLike = None
+    premiums: ArrayLike = None
 
     @classmethod
     def from_csv(cls, path: str):
@@ -28,8 +27,20 @@ class PolicyPortfolio:
 
     @classmethod
     def from_df(cls, df: pd.DataFrame):
-        columns_given = df.columns
-        return cls(*[df[col].values if np.isin(col, columns_given) else None for col in policy_data_csv_columns])
+
+        if 'premium' not in df.columns:
+            df['premium'] = np.ones_like(df['age'])
+
+        return cls(ages=df['age'].to_numpy(),
+                   _terms=df['term'].to_numpy(),
+                   death_contingent_benefits=df.get('death_contingent_benefit', None),
+                   terminal_survival_contingent_benefits=df.get('terminal_survival_contingent_benefit', None),
+                   periodic_survival_contingent_benefits=df.get('periodic_survival_contingent_benefit', None),
+                   policy_type=df.get('policy_type', None),
+                   premium_type=df.get('premium_type', None),
+                   _policy_id=df.get('policy_id', None),
+                   premiums=df['premium'].to_numpy())
+
 
     @property
     def policy_id(self):
@@ -45,19 +56,22 @@ class PolicyPortfolio:
         policy_terms[np.isnan(policy_terms)] = wol_years
         return policy_terms.astype(int)
 
+
     @property
     def count(self):
         return len(self.ages)
 
+
     @property
     def data(self):
         return pd.DataFrame({k: getattr(self, k) for k in policy_data_csv_columns})
+
 
     def get(self, attr: str, product_type: str):
         if attr == 'count':
             return int(sum(self.policy_type == product_type))
         return getattr(self, attr)[self.policy_type == product_type]
 
-    def subset(self, product_type: str):
-        warnings.warn("New instance of PolicyPortfolio created. This may be detrimental to performance and memory usage")
-        return PolicyPortfolio.from_df(self.data.loc[self.policy_type == product_type])
+
+    def is_type(self, product_type: str):
+        return np.asarray(self.policy_type == product_type, dtype=bool)

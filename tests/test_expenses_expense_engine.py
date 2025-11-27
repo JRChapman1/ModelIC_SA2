@@ -32,6 +32,15 @@ class TestExpenseEngine(unittest.TestCase):
 
     eng = ExpenseEngine(expense_spec, discount_curve, mortality, expense_inflation_rate)
 
+    expense_spec_per_pol_only = expense_spec.copy()[expense_spec['Basis'] == 'PER_POLICY']
+    eng_per_pol_only = ExpenseEngine(expense_spec_per_pol_only, discount_curve, mortality, expense_inflation_rate)
+
+    expense_spec_pct_prem_only = expense_spec.copy()[expense_spec['Basis'] == 'PCT_PREMIUM']
+    eng_pct_prem_only = ExpenseEngine(expense_spec_pct_prem_only, discount_curve, mortality, expense_inflation_rate)
+
+    expense_spec_no_death_exp = expense_spec.copy()[expense_spec['Type'] != 'DEATH']
+    eng_no_death_exp = ExpenseEngine(expense_spec_no_death_exp, discount_curve, mortality, expense_inflation_rate)
+
 
     def test_expense_engine_pv(self):
 
@@ -52,6 +61,30 @@ class TestExpenseEngine(unittest.TestCase):
 
         expected = 50825.1368
         actual = self.eng.present_value(self.policies_in, group_by='*')
+
+        assert np.allclose(actual, expected)
+
+
+    def test_expense_engine_pv_per_policy_only_aggregated(self):
+
+        expected = 12099.523729079947
+        actual = self.eng_per_pol_only.present_value(self.policies_in, group_by='*')
+
+        assert np.allclose(actual, expected)
+
+
+    def test_expense_engine_pv_pct_premium_only_aggregated(self):
+
+        expected = 50825.1368 - 12099.523729079947
+        actual = self.eng_pct_prem_only.present_value(self.policies_in, group_by='*')
+
+        assert np.allclose(actual, expected)
+
+
+    def test_expense_engine_pv_no_death_exp_aggregated(self):
+
+        expected = 50825.1368 - 721.2834535
+        actual = self.eng_no_death_exp.present_value(self.policies_in, group_by='*')
 
         assert np.allclose(actual, expected)
 

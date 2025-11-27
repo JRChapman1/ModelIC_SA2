@@ -2,14 +2,11 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from modelic.core.curves import YieldCurve
-from modelic.core.mortality import MortalityTable
-from modelic.core.policy_portfolio import PolicyPortfolio
-from modelic.pricers.pricing_engine import PricingEngine
+from full_model import PricingEngine, PolicyPortfolio, MortalityTable, YieldCurve
 from _data import data_path
 
 
-class TestPricingEngine(unittest.TestCase):
+class TestFullModel(unittest.TestCase):
 
     try:
         expense_spec = pd.read_csv('./../Parameters/expense_spec.csv')

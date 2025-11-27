@@ -34,7 +34,7 @@ def create_dummy_assurance_policies(ph_age: IntArrayLike, term: IntArrayLike, su
     pvs = life_assurance.present_value(aggregate=False)
     prems = _goalseek_regular_premium(pvs, ph_age, term)
 
-    policies.annual_premium = prems * (1 + loading)
+    policies.premium = prems * (1 + loading)
 
     return policies
 
@@ -46,7 +46,7 @@ def create_dummy_pure_endowment_policies(ph_age: IntArrayLike, term: IntArrayLik
     pvs = pure_endowment.present_value(aggregate=False)
     prems = _goalseek_regular_premium(pvs, ph_age, term)
 
-    policies.annual_premium = prems * (1 + loading)
+    policies.premium = prems * (1 + loading)
 
     return policies
 
@@ -58,7 +58,7 @@ def create_dummy_endowment_policies(ph_age: IntArrayLike, term: IntArrayLike, de
     pvs = pure_endowment.present_value(aggregate=False)
     prems = _goalseek_regular_premium(pvs, ph_age, term)
 
-    policies.annual_premium = prems * (1 + loading)
+    policies.premium = prems * (1 + loading)
 
     return policies
 

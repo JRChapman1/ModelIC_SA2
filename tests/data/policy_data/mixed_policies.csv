@@ -1,4 +1,4 @@
-,ages,terms,death_contingent_benefits,terminal_survival_contingent_benefits,periodic_survival_contingent_benefits,annual_premium,policy_type,premium_type
+,age,term,death_contingent_benefit,terminal_survival_contingent_benefit,periodic_survival_contingent_benefit,premium,policy_type,premium_type
 0,34,21,150000,,,294.4919,Term Assurance,Regular
 1,47,13,70000,,,321.0385,Term Assurance,Regular
 2,73,2,10000,,,490.7803,Term Assurance,Regular

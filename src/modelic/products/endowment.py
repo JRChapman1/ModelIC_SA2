@@ -22,8 +22,22 @@ class Endowment(CompositeProduct):
         super().__init__(components, yield_curve)
 
     @classmethod
-    def from_policy_portfolio(cls, policy_data: PolicyPortfolio, yield_curve: YieldCurve, mortality_table: MortalityTable):
-        return cls(yield_curve, mortality_table, policy_data.ages, policy_data.terms,
-                   policy_data.terminal_survival_contingent_benefits, policy_data.death_contingent_benefits)
+    def from_policy_portfolio(cls, policy_data: PolicyPortfolio, yield_curve: YieldCurve, mortality_table: MortalityTable,
+                              *, policy_mask: ArrayLike = None):
+
+        ages = policy_data.ages
+        terms = policy_data.terms
+        terminal_survival_contingent_benefits = policy_data.terminal_survival_contingent_benefits
+        death_contingent_benefits = policy_data.death_contingent_benefits
+
+        if policy_mask is not None:
+            assert policy_mask.size == policy_data.count, "Policy mask shape does not match policy mask shape"
+            ages = ages[policy_mask]
+            terms = terms[policy_mask]
+            terminal_survival_contingent_benefits = terminal_survival_contingent_benefits[policy_mask]
+            death_contingent_benefits = death_contingent_benefits[policy_mask]
+
+        return cls(yield_curve, mortality_table, ages, terms, terminal_survival_contingent_benefits,
+                   death_contingent_benefits)
 
 
