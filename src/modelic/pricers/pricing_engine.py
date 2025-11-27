@@ -31,23 +31,19 @@ class PricingEngine:
     def price_policy_portfolio(self, policy_portfolio: PolicyPortfolio):
 
         # TODO: Ensure dict is best struct to accumulate results in
-        results = {}
+        results = pd.Series(index=policy_portfolio.policy_id)
 
 
         for policy_type in np.unique(policy_portfolio.policy_type):
 
             filtered_policies = policy_portfolio.subset(policy_type)
-
             product_engine = PRODUCT_FACTORY[policy_type].from_policy_portfolio(filtered_policies, self.yield_curves, self.mortality_table)
-
             ben_pvs = product_engine.present_value(aggregate=False)
+            results.loc[filtered_policies.policy_id] = ben_pvs
 
-            prices = self.price_policy_group(filtered_policies, ben_pvs)
-            prices.index = prices.index.astype(int)
+        prices = self.price_policy_group(policy_portfolio, results)
 
-            results |= prices.to_dict()
-
-        return results
+        return prices
 
 
     def price_policy(self, pol_type, ph_age, pol_term, premium_type, pv_bens):
@@ -82,7 +78,7 @@ class PricingEngine:
                                                            policy_data.ages[reg_prem_pols], policy_data.terms[reg_prem_pols] - 1,
                                                            periodic_cf=1.0)
 
-            prem_ann_fac[reg_prem_pols] += prem_ann_fac_obj.present_value()
+            prem_ann_fac[reg_prem_pols] += prem_ann_fac_obj.present_value(aggregate=False)
 
         pv_expenses = self.expense_engine.present_value(policy_data, group_by=['policy_id', 'Basis'], unstack=True)
         premium = (pv_bens + pv_expenses['PER_POLICY']) / (prem_ann_fac - pv_expenses['PCT_PREMIUM'])
