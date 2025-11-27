@@ -5,7 +5,7 @@ import pandas as pd
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
 from modelic.core.policy_portfolio import PolicyPortfolio
-from modelic.core.contingent_cashflows.survival_contingent_cashflow import _SurvivalContingentCashflow
+from modelic.core.contingent_cashflows.survival_contingent_cashflow import SurvivalContingentCashflow
 from _data import data_path
 
 
@@ -24,10 +24,10 @@ class TestSurvivalBenefit(unittest.TestCase):
     policies_t3 = PolicyPortfolio.from_csv(data_path("policy_data", "annuity_test_data_term3.csv"))
     policies_wol = PolicyPortfolio.from_csv(data_path("policy_data", "annuity_test_data.csv"))
 
-    annuity_t3 = _SurvivalContingentCashflow(discount_curve, mortality, [34, 47, 73], [3, 3, 3],
-                                             periodic_cf=[5, 10, 15])
-    annuity = _SurvivalContingentCashflow(discount_curve, mortality, [34, 47, 73], [np.nan, np.nan, np.nan],
-                                          periodic_cf=[5, 10, 15])
+    annuity_t3 = SurvivalContingentCashflow(discount_curve, mortality, [34, 47, 73], [3, 3, 3],
+                                            periodic_cf=[5, 10, 15])
+    annuity = SurvivalContingentCashflow(discount_curve, mortality, [34, 47, 73], [np.nan, np.nan, np.nan],
+                                         periodic_cf=[5, 10, 15])
 
     def test_project_cashflows_term_3(self):
 

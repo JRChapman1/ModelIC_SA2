@@ -7,7 +7,7 @@ from scipy.optimize import root_scalar
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
 from modelic.core.policy_portfolio import PolicyPortfolio
-from modelic.core.contingent_cashflows.survival_contingent_cashflow import _SurvivalContingentCashflow
+from modelic.core.contingent_cashflows.survival_contingent_cashflow import SurvivalContingentCashflow
 from modelic.products.endowment import Endowment
 from modelic.products.annuity import Annuity
 from modelic.products.life_assurance import LifeAssurance
@@ -84,7 +84,7 @@ def _goalseek_regular_premium(target: ArrayLike, ph_age: IntArrayLike, term: Int
         n = term[i]
 
         def _objective_function(x):
-            cf = _SurvivalContingentCashflow(discount_curve, mortality, age, n, periodic_cf=x)
+            cf = SurvivalContingentCashflow(discount_curve, mortality, age, n, periodic_cf=x)
             return cf.present_value(aggregate=False) - target[i]
 
         results.append(root_scalar(_objective_function, bracket=[0, target[i]]).root)

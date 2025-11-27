@@ -1,3 +1,5 @@
+# modelic.products.product_factory.py
+
 from modelic.products.product_types import ProductType
 from modelic.products.annuity import Annuity
 from modelic.products.endowment import Endowment
@@ -10,5 +12,5 @@ PRODUCT_FACTORY = {
     ProductType.Endowment: Endowment,
     ProductType.PureEndowment: PureEndowment,
     ProductType.WholeOfLifeAssurance: LifeAssurance,
-    ProductType.TermAssurance: LifeAssurance,
+    ProductType.TermAssurance: LifeAssurance
 }

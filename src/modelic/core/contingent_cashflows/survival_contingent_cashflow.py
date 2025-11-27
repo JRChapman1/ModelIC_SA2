@@ -9,7 +9,7 @@ from modelic.core.custom_types import ArrayLike, IntArrayLike
 from modelic.core.policy_portfolio import PolicyPortfolio
 
 
-class _SurvivalContingentCashflow(BaseCashflowModel):
+class SurvivalContingentCashflow(BaseCashflowModel):
     """ Projects cashflows and calculates present values for death contingent contingent_cashflows """
 
     def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, ph_age: IntArrayLike, term: IntArrayLike,
@@ -34,7 +34,7 @@ class _SurvivalContingentCashflow(BaseCashflowModel):
 
     @classmethod
     def from_policy_portfolio(cls, policy_portfolio: PolicyPortfolio, yield_curve: YieldCurve,
-                              mortality_table: MortalityTable, *, projection_steps: IntArrayLike = None) -> "_SurvivalContingentCashflow":
+                              mortality_table: MortalityTable, *, projection_steps: IntArrayLike = None) -> "SurvivalContingentCashflow":
 
         return cls(yield_curve,
                    mortality_table,

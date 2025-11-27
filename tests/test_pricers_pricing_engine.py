@@ -43,8 +43,6 @@ class TestPricingEngine(unittest.TestCase):
 
         actual = self.eng.price_policy_portfolio(self.policies_in)
 
-        actual = np.array([actual[i] for i in range(1, 1+ max(actual.keys()))])
-
         assert actual.shape == expected.shape
         assert np.allclose(actual, expected)
 

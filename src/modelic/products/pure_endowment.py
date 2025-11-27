@@ -3,7 +3,7 @@
 from modelic.core.cashflows import CompositeProduct
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
-from modelic.core.contingent_cashflows.survival_contingent_cashflow import _SurvivalContingentCashflow
+from modelic.core.contingent_cashflows.survival_contingent_cashflow import SurvivalContingentCashflow
 from modelic.core.policy_portfolio import PolicyPortfolio
 from modelic.core.custom_types import ArrayLike, IntArrayLike
 
@@ -15,7 +15,7 @@ class PureEndowment(CompositeProduct):
     def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, age: IntArrayLike, term: IntArrayLike,
                  survival_benefit: ArrayLike):
 
-        components = [_SurvivalContingentCashflow(yield_curve, mortality_table, age, term, terminal_cf=survival_benefit)]
+        components = [SurvivalContingentCashflow(yield_curve, mortality_table, age, term, terminal_cf=survival_benefit)]
 
         super().__init__(components, yield_curve)
 

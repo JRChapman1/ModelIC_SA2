@@ -3,7 +3,7 @@
 from modelic.core.cashflows import CompositeProduct
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
-from modelic.core.contingent_cashflows.death_contingent_cashflow import _DeathContingentCashflow
+from modelic.core.contingent_cashflows.death_contingent_cashflow import DeathContingentCashflow
 from modelic.core.policy_portfolio import PolicyPortfolio
 from modelic.core.custom_types import ArrayLike, IntArrayLike
 
@@ -13,7 +13,7 @@ class LifeAssurance(CompositeProduct):
     """ Projects cashflows and calculates present values for death contingent contingent_cashflows """
 
     def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, age: IntArrayLike, term: IntArrayLike, death_benefit: ArrayLike):
-        components = [_DeathContingentCashflow(yield_curve, mortality_table, age, term, death_benefit)]
+        components = [DeathContingentCashflow(yield_curve, mortality_table, age, term, death_benefit)]
         super().__init__(components, yield_curve)
 
     @classmethod
