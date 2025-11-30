@@ -1,39 +1,30 @@
-import numpy as np
+# modelic/assets/bond.py
 
-from modelic.core.cashflows import BaseCashflowModel
-from modelic.core.curves import YieldCurve, IndexCurve
-from modelic.core.custom_types import IntArrayLike, ArrayLike
+from modelic.core.cashflows import CompositeProduct
+from modelic.core.contingent_cashflows.guaranteed_cashflow import GuaranteedCashflow
+from modelic.core.curves import YieldCurve
+from modelic.core.custom_types import ArrayLike, IntArrayLike
+from modelic.core.asset_portfolio import AssetPortfolio
 
-# TODO: Implement indexation
-class BondLike(BaseCashflowModel):
+class Bond(CompositeProduct):
 
-    def __init__(self,
-                 coupon_rate: ArrayLike,
-                 term: IntArrayLike,
-                 notional: ArrayLike,
-                 spreads: ArrayLike,
-                 discount_curve: YieldCurve):
+    """ Projects cashflows and calculates present values for bonds and bond-like assets """
 
-        coupon_rate = np.asarray(coupon_rate)
-        term = np.asarray(term)
-        notional = np.asarray(notional)
+    def __init__(self, yield_curve: YieldCurve, notional: ArrayLike, coupon_rate: ArrayLike, maturity: IntArrayLike,
+                 spread: ArrayLike, *, projection_steps: IntArrayLike = None, escalation: float = 0.0):
 
-        super().__init__(np.arange(1, max(term) + 1), discount_curve)
+        components = [GuaranteedCashflow(yield_curve, notional, coupon_rate, maturity, spread,
+                                         projection_steps=projection_steps, escalation=escalation)]
 
-        self.coupon_rate = coupon_rate
-        self.term = term
-        self.notional = notional
-        self.spreads = spreads
-        self.curve = discount_curve
+        super().__init__(components, yield_curve)
 
-    def project_cashflows(self, aggregate: bool = True) -> np.ndarray:
+    @classmethod
+    def from_asset_portfolio(cls, asset_portfolio: AssetPortfolio, yield_curve: YieldCurve, *,
+                             projection_steps: IntArrayLike = None):
 
-        cfs = np.zeros((self.term.max(), self.term.size))
-        for j, (coupon, notional, dur) in enumerate(zip(self.coupon_rate, self.notional, self.term-1)):
-            cfs[:dur, j] = coupon * notional
-            cfs[dur, j] = (1 + coupon) * notional
-
-        if aggregate:
-            cfs = cfs.sum(axis=1).reshape(-1, 1)
-
-        return cfs
+        return cls(yield_curve=yield_curve,
+                   notional=asset_portfolio.notional,
+                   coupon_rate=asset_portfolio.coupon_rate,
+                   maturity=asset_portfolio.maturity,
+                   spread=asset_portfolio.spread,
+                   projection_steps=projection_steps)

@@ -23,7 +23,10 @@ class BaseCashflowModel(ABC):
         zeros = self.curve.zero(self.times)[:, None] + np.atleast_2d(spread)
         return zero_to_df(self.times, zeros)
 
-    def present_value(self, spread: ArrayLike = 0, aggregate: bool = True):
+    def present_value(self, spread: ArrayLike = None, aggregate: bool = True):
+
+        if spread is None:
+            spread = 0
 
         cf = self.project_cashflows(aggregate=False)
         df = self.discount_factors(spread)
@@ -52,7 +55,7 @@ class CompositeProduct(BaseCashflowModel):
         cfs = sum([c.project_cashflows(aggregate) for c in self.components])
         return cfs
 
-    def present_value(self, spread: ArrayLike = 0, aggregate: bool = True):
+    def present_value(self, spread: ArrayLike = None, aggregate: bool = True):
 
         pvs = sum(c.present_value(spread, aggregate) for c in self.components)
 

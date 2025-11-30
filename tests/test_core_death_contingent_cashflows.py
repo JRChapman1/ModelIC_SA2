@@ -4,12 +4,11 @@ import pandas as pd
 
 from modelic.core.curves import YieldCurve
 from modelic.core.mortality import MortalityTable
-from modelic.core.policy_portfolio import PolicyPortfolio
 from modelic.core.contingent_cashflows.death_contingent_cashflow import DeathContingentCashflow
 from _data import data_path
 
 
-class TestDeathBenefit(unittest.TestCase):
+class TestDeathContingentCashflow(unittest.TestCase):
 
     mort_raw = pd.read_csv(data_path("mortality", "AM92.csv"))
     ages = mort_raw['x'].to_numpy(int)
