@@ -3,12 +3,12 @@ import numpy as np
 import pandas as pd
 
 from modelic.core.curves import YieldCurve
-from modelic.assets.bond import Bond
+from modelic.core.contingent_cashflows.guaranteed_cashflow import GuaranteedCashflow
 from modelic.core.asset_portfolio import AssetPortfolio
 from _data import data_path
 
 
-class TestBond(unittest.TestCase):
+class TestGuaranteedCashflow(unittest.TestCase):
 
     disc_raw = pd.read_csv(data_path("curves", "boe_spot_annual.csv"))
     times = disc_raw['year'].to_numpy(int)
@@ -16,7 +16,7 @@ class TestBond(unittest.TestCase):
     discount_curve = YieldCurve(times, zeros, 'BoE')
 
     bond_portfolio = AssetPortfolio.from_csv(data_path("asset_data", "bond_portfolio.csv"))
-    bond_model = Bond.from_asset_portfolio(bond_portfolio, discount_curve)
+    bond_model = GuaranteedCashflow.from_asset_portfolio(bond_portfolio, discount_curve)
 
 
     def test_present_value(self):
