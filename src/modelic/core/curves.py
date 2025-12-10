@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 import numpy as np
+import pandas as pd
 
 from modelic.core.compounding import zero_to_df
 from modelic.core.custom_types import ArrayLike
@@ -65,6 +66,32 @@ class YieldCurve:
 
     def _resolve_idx(self, times: np.ndarray) -> np.ndarray:
         return (times - self.min_time).astype(int)
+
+
+@dataclass(frozen=True)
+class SpreadTable:
+    spread_term_structures: pd.DataFrame
+    name: str = None
+
+
+    def resolve_spreads(self, asset_terms: ArrayLike, asset_ratings: ArrayLike) -> np.ndarray:
+        term_idx = self.spread_term_structures.index.get_indexer(asset_terms)
+        rating_idx = [self.spread_term_structures.columns.get_loc(r) for r in asset_ratings]
+        return self.spread_term_structures.values[term_idx, rating_idx]
+
+
+    @classmethod
+    def from_df(cls, df: pd.DataFrame, name: str = None) -> "SpreadTable":
+
+        return cls(df, name)
+
+
+    @classmethod
+    def from_csv(cls, path: str, name: str = None) -> "SpreadTable":
+        data = pd.read_csv(path, index_col=0)
+        return cls.from_df(data, name)
+
+
 
 @dataclass(frozen=True)
 class IndexCurve:
