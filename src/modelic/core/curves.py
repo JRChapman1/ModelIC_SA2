@@ -1,5 +1,6 @@
 # modelic/core/curves.py
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import numpy as np
 import pandas as pd
@@ -36,8 +37,13 @@ class YieldCurve:
         idx = self._resolve_idx(t)
         return df[idx]
 
-    def fwd(self, t: ArrayLike, p: int) -> ArrayLike:
-        pass
+    def fwd(self, t: ArrayLike) -> ArrayLike:
+
+        # Treat f(0) as forward rate applying between times 0 and 1.
+        t += 1
+
+        df = np.insert(self.df(t), 0, 1)
+        return df[:-1] / df[1:] - 1
 
 
     # --- Transformations (return NEW YieldCurve objects) ---
@@ -69,28 +75,50 @@ class YieldCurve:
 
 
 @dataclass(frozen=True)
-class SpreadTable:
-    spread_term_structures: pd.DataFrame
+class EIOPATable(ABC):
+    rate_term_structures: pd.DataFrame
     name: str = None
 
-
-    def resolve_spreads(self, asset_terms: ArrayLike, asset_ratings: ArrayLike) -> np.ndarray:
-        term_idx = self.spread_term_structures.index.get_indexer(asset_terms)
-        rating_idx = [self.spread_term_structures.columns.get_loc(r) for r in asset_ratings]
-        return self.spread_term_structures.values[term_idx, rating_idx]
+    @abstractmethod
+    def resolve_values(self, asset_terms: ArrayLike, asset_ratings: ArrayLike) -> np.ndarray:
+        pass
 
 
     @classmethod
-    def from_df(cls, df: pd.DataFrame, name: str = None) -> "SpreadTable":
+    def from_df(cls, df: pd.DataFrame, name: str = None) -> "EIOPATable":
 
         return cls(df, name)
 
 
     @classmethod
-    def from_csv(cls, path: str, name: str = None) -> "SpreadTable":
+    def from_csv(cls, path: str, name: str = None) -> "EIOPATable":
         data = pd.read_csv(path, index_col=0)
         return cls.from_df(data, name)
 
+
+class FSTable(EIOPATable):
+
+    def resolve_values(self, asset_terms: ArrayLike, asset_ratings: ArrayLike) -> np.ndarray:
+        term_idx = self.rate_term_structures.index.get_indexer(asset_terms)
+        rating_idx = [self.rate_term_structures.columns.get_loc(r) for r in asset_ratings]
+        return self.rate_term_structures.values[term_idx, rating_idx]
+
+
+class PDTable(EIOPATable):
+
+    def resolve_values(self, asset_terms: ArrayLike, asset_ratings: ArrayLike, *, proj_term=None) -> np.ndarray:
+
+        term_idx = self.rate_term_structures.index.get_indexer(asset_terms)
+        rating_idx = [self.rate_term_structures.columns.get_loc(r) for r in asset_ratings]
+
+
+        if proj_term is None:
+            proj_term = term_idx.max() + 1
+
+        pds = self.rate_term_structures.values[:proj_term, rating_idx]
+        pds[np.arange(0, proj_term)[:, None] > term_idx[None, :]] = 0.0
+
+        return pds
 
 
 @dataclass(frozen=True)

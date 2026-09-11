@@ -3,7 +3,10 @@
 # --- Conversions ---
 
 def zero_to_df(years, rates):
-    return (1 + rates) ** -years.reshape(-1, 1)
+
+    if rates.ndim > 1:
+        years = years.reshape(-1, 1)
+    return (1 + rates) ** -years
 
 def df_to_zero():
     pass
