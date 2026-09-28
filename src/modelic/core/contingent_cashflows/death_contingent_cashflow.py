@@ -12,7 +12,7 @@ from modelic.core.custom_types import ArrayLike, IntArrayLike
 class DeathContingentCashflow(BaseCashflowModel):
     """ Projects cashflows and calculates present values for death contingent contingent_cashflows """
 
-    def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, ph_age: IntArrayLike, term: IntArrayLike,
+    def __init__(self, yield_curve: YieldCurve, mortality_table: MortalityTable, ph_age: IntArrayLike, term: IntArrayLike = np.nan,
                  death_contingent_cf: ArrayLike = 1, *, projection_steps: IntArrayLike = None, escalation: float = 0.0):
 
         policy_terms = np.nan_to_num(np.asarray(term, dtype=np.float64), nan=mortality_table.max_age-mortality_table.min_age).astype(int)

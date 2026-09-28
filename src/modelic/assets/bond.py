@@ -1,5 +1,3 @@
-# modelic/assets/bond.py
-
 from modelic.core.cashflows import CompositeProduct
 from modelic.core.contingent_cashflows.guaranteed_cashflow import GuaranteedCashflow
 from modelic.core.curves import YieldCurve
